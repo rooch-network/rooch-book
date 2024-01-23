@@ -1,0 +1,82 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Rooch Move by Example\n"
+"POT-Creation-Date: 2024-01-24T01:20:14+08:00\n"
+"PO-Revision-Date: 2024-01-24 01:22+0800\n"
+"Last-Translator:  <geometryolife@gmail.com>\n"
+"Language-Team: Language zh-CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh-CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/SUMMARY.md:1
+msgid "Summary"
+msgstr "总结"
+
+#: src/SUMMARY.md:3 src/chapter_1.md:1
+msgid "Chapter 1"
+msgstr "第一章"
+
+#: src/SUMMARY.md:4 src/chapter_2.md:1
+msgid "Chapter 2"
+msgstr "第二章"
+
+#: src/SUMMARY.md:5 src/chapter_2_1.md:1
+msgid "One"
+msgstr ""
+
+#: src/chapter_1.md:3
+msgid ""
+"Rooch (/ruʧ/) is named by combining Root and Branch where both mean several "
+"things:"
+msgstr ""
+
+#: src/chapter_1.md:5
+msgid ""
+"from a community perspective, Rooch helps Web3 builders to build the roots "
+"of Web3 for different branches of users"
+msgstr ""
+
+#: src/chapter_1.md:6
+msgid ""
+"from an ecosystem perspective, Rooch creates a connection between crypto "
+"assets from different ecosystems and versatile Web3 DApps"
+msgstr ""
+
+#: src/chapter_1.md:7
+msgid ""
+"from a technical perspective, Rooch serves as the middle layer between all "
+"the Layer1 blockchains and all the Web3 DApps"
+msgstr ""
+
+#: src/chapter_2.md:3
+msgid ""
+"Rooch is a smart contract execution runtime with the following features:"
+msgstr ""
+
+#: src/chapter_2.md:5
+msgid ""
+"MoveVM - Rooch embeds a full MoveVM for developers to program the smart "
+"contracts with Move Language"
+msgstr ""
+
+#: src/chapter_2.md:6
+msgid ""
+"Scalable - Rooch is a fast execution environment that can achieve 100k peak "
+"TPS when composed in a network"
+msgstr ""
+
+#: src/chapter_2.md:7
+msgid ""
+"Modular - Rooch has abstracted interfaces which enables different DA Layer, "
+"Settlement Layer and Arbitration Layer to be integrated"
+msgstr ""
+
+#: src/chapter_2_1.md:3
+msgid ""
+"Rooch Network provides robust, all-in-one services for Web3 DApps to easily "
+"and flexibly deploy. This allows Web3 developers to focus on building cool "
+"stuff without worrying about infrastructure."
+msgstr "Rooch Network 为 Web3 DApp 提供强大的一体化服务，使其能够轻松灵活地部署。这使得 Web3 开发者在不用顾虑基础设施问题的前提下，可以更专注于构建更个性化的产品。"
