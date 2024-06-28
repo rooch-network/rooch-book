@@ -8,8 +8,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'Rooch Move by Example',
+  tagline: 'Learn Move language through small examples',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -31,7 +31,24 @@ const config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'zh'],
+    // path: 'i18n',
+    // localeConfigs: {
+    //   en: {
+    //     label: 'English',
+    //     direction: 'ltr',
+    //     htmlLang: 'en-US',
+    //     calendar: 'gregory',
+    //     path: 'en',
+    //   },
+    //   zh: {
+    //     label: '中文',
+    //     direction: 'ltr',
+    //     htmlLang: 'zh-CN',
+    //     calendar: 'gregory',
+    //     path: 'zh',
+    //   },
+    // }
   },
 
   presets: [
@@ -83,6 +100,9 @@ const config = {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
             position: 'right',
+          },
+          {
+            type: 'localeDropdown',
           },
         ],
       },
