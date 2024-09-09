@@ -1,28 +1,28 @@
-# 安装
+# Installation
 
-## 编译安装
+## Compile and install
 
 ### Ubuntu
 
-#### 安装依赖
+#### Install dependencies
 
 ```shell
-sudo apt install git curl gcc lld pkg-config libssl-dev libclang-dev libsqlite3-dev g++
+sudo apt install git curl cmake make gcc lld pkg-config libssl-dev libclang-dev libsqlite3-dev g++ protobuf-compiler
 ```
 
-#### 安装 Rust
+#### Install Rust
 
 ```shell
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-#### 克隆源码
+#### Clone source code
 
 ```shell
 git clone https://github.com/rooch-network/rooch.git
 ```
 
-#### 编译并安装 Rooch
+#### Compile and install Rooch
 
 ```shell
 cd rooch && cargo build && cp target/debug/rooch ~/.cargo/bin/
@@ -30,35 +30,43 @@ cd rooch && cargo build && cp target/debug/rooch ~/.cargo/bin/
 
 ### Windows
 
-#### 安装依赖
+#### Installing Dependencies
 
-要在Windows上编译Rooch，您需要安装以下依赖项：
+To compile Rooch on Windows, you'll need to install the following dependencies:
 
 1. [Build Tools for Visual Studio 2022](https://visualstudio.microsoft.com/downloads/)
 2. [LLVM](https://github.com/llvm/llvm-project/releases/tag/llvmorg-17.0.1)
 3. [Git](https://git-scm.com/downloads)
 
-请确保安装这些依赖项并设置必要的环境变量。
+Make sure to install these dependencies and set up the necessary environment variables.
 
-#### 安装 Rust
+#### Installing Rust
 
-下载安装 Windows Rust 工具链 [https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe](https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe)
+Download the Rust toolchain by clicking [here](https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe).
 
-#### 克隆源码
+#### Cloning the Source Code
+
+Use the following command to clone the Rooch source code repository:
 
 ```shell
 git clone https://github.com/rooch-network/rooch.git
 ```
 
-#### 编译并安装 Rooch
+#### Compiling and Installing Rooch
+
+Navigate to the Rooch project directory:
 
 ```shell
 cd rooch
 ```
 
+Build Rooch using the following command:
+
 ```shell
 cargo build
 ```
+
+Finally, copy the compiled Rooch binary to your Cargo bin directory:
 
 ```shell
 cp target/debug/rooch.exe ~/.cargo/bin/
@@ -66,39 +74,39 @@ cp target/debug/rooch.exe ~/.cargo/bin/
 
 ### macOS
 
-首先，创建一个二进制文件目录
+Firstly, create a binary file directory
 
 ```shell
 mkdir ~/.local/bin/ 
 ```
 
-第二步，将二进制文件目录添加到 `~/.zschrc` 中
+Secondly, add the binary file directory path into `~/.zshrc`
 
 ```shell
 export PATH="$PATH:$HOME/.local/bin"
 ```
 
-第三步，从 [github release page](https://github.com/rooch-network/rooch/releases) 下载 `rooch-macos-latest.zip`，解压文件并将二进制文件移动到 `~/.local/bin/` 中
+Thirdly, download the binary file `rooch-macos-latest.zip` from [github release page](https://github.com/rooch-network/rooch/releases), unzip the file and move the binary file into `~/.local/bin/`
 
-最后，打开一个新的终端窗口并运行 `rooch` 检查是否工作
+Fourthly, open a new terminal window and run `rooch` to check if it works
 
-## 二进制安装
+## Binary install
 
 ### Linux
 
-#### 下载
+#### Download
 
 ```shell
-wget https://github.com/rooch-network/rooch/releases/download/v0.1/rooch-ubuntu-latest.zip
+wget https://github.com/rooch-network/rooch/releases/latest/download/rooch-ubuntu-latest.zip
 ```
 
-#### 解压
+#### Decompress
 
 ```shell
 unzip rooch-ubuntu-latest.zip
 ```
 
-#### 安装
+#### Install
 
 ```shell
 sudo cp rooch /usr/local/bin
