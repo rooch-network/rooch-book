@@ -1,6 +1,8 @@
-# Website
+# Rooch Book
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This is the Move Book - a comprehensive guide to the Move programming language and the Rooch blockchain. The book is intended for developers who are interested in learning about Move and building on Sui.
+
+> This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
 ### Installation
 
