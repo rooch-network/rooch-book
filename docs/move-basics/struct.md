@@ -14,7 +14,6 @@ any type, including other structs.
 > Move does not support recursive structs, meaning a struct cannot contain itself as a field.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/struct.move:def}}
 ```
 
 In the example above, we define a `Record` struct with five fields. The `title` field is of type
@@ -37,7 +36,6 @@ struct can be initialized using the `struct_name { field1: value1, field2: value
 The fields can be initialized in any order, and all of the fields must be set.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/struct.move:pack}}
 ```
 
 In the example above, we create an instance of the `Artist` struct and set the `name` field to a
@@ -46,7 +44,6 @@ string "The Beatles".
 To access the fields of a struct, you can use the `.` operator followed by the field name.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/struct.move:access}}
 ```
 
 Only module defining the struct can access its fields (both mutably and immutably). So the above
@@ -69,7 +66,6 @@ stored or _unpacked_. Unpacking a struct means deconstructing it into its fields
 the `let` keyword followed by the struct name and the field names.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/struct.move:unpack}}
 ```
 
 In the example above we unpack the `Artist` struct and create a new variable `name` with the value
@@ -78,7 +74,6 @@ suppress the warning, you can use the underscore `_` to indicate that the variab
 unused.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/struct.move:unpack_ignore}}
 ```
 
 ## Further reading

@@ -28,7 +28,6 @@ safety checks and methods to work with strings, but at the end of the day, they 
 bytes.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/string.move:custom}}
 ```
 
 ## Working with UTF-8 Strings
@@ -56,7 +55,6 @@ To create a new UTF-8 `String` instance, you can use the `string::utf8` method. 
 convenience.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/string.move:utf8}}
 ```
 
 ### Common Operations
@@ -100,7 +98,6 @@ otherwise.
 > Rust.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/string.move:safe_utf8}}
 ```
 
 ### UTF-8 Limitations

@@ -21,14 +21,12 @@ comment.
 ## Line comment
 
 ```Move
-{{#include ../../../packages/samples/sources/move-basics/comments.move:line}}
 ```
 
 You can use double slash `//` to comment out the rest of the line. Everything after `//` will be
 ignored by the compiler.
 
 ```Move
-{{#include ../../../packages/samples/sources/move-basics/comments.move:line_2}}
 ```
 
 ## Block comment
@@ -38,7 +36,6 @@ Everything between `/*` and `*/` will be ignored by the compiler. You can use bl
 comment out a single line or multiple lines. You can even use them to comment out a part of a line.
 
 ```Move
-{{#include ../../../packages/samples/sources/move-basics/comments.move:block}}
 ```
 
 This example is a bit extreme, but it shows how you can use block comments to comment out a part of
@@ -51,7 +48,6 @@ They are similar to block comments, but they start with three slashes `///` and 
 the definition of the item they document.
 
 ```Move
-{{#include ../../../packages/samples/sources/move-basics/comments.move:doc}}
 ```
 
 <!-- TODO: docgen, which members are in the documentation -->
