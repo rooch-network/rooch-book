@@ -63,7 +63,7 @@ After analyzing the above solutions, we find that the storage model of a contrac
 
 ## Design Solution
 
-![Storage Abstraction](/docs/rooch-design-storage-abstraction.svg)
+<!-- ![Storage Abstraction](/docs/rooch-design-storage-abstraction.svg) -->
 
 Earlier, we mentioned that smart contracts need to provide state management interfaces for applications. We believe that the state management of smart contracts should be as simple as heap memory operations but with clear ownership. In Rooch, [Object](./object) is the basic unit of state storage. An Object is similar to a "smart pointer," holding an address of a state space while also representing ownership of that state space.
 
@@ -85,7 +85,7 @@ Rooch's state tree is implemented using a [Sparse Merkle Tree](https://github.co
 
 In Rooch, each Object represents an SMT (Sparse Merkle Tree), with the `state_root` field in the Object storing the root hash of the SMT. The Key of the dynamic field in an Object is the path of the SMT, and the Value is the leaf node of the SMT.
 
-![statedb](/docs/rooch-design-statedb.svg)
+<!-- ![statedb](/docs/rooch-design-statedb.svg) -->
 
 In Rooch, the leaf nodes of the first layer of the state tree are Objects, and each Object carries a state subtree, which can store the dynamic fields of the Object or child Objects. For instance, BitcoinStore is an Object that stores all the states on the Bitcoin chain, with UTXO and Inscription as its child Objects.
 

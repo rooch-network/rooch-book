@@ -276,11 +276,9 @@ Rooch objects offer two types of dynamic fields: normal types and Object types.
 
 Normal dynamic fields are resources with `store` ability stored under an object; Object type dynamic fields store child Object instances under an object.
 
-<Callout>
 Note: Since the Object type itself also has the `store` ability, what is the difference between storing the entire `Object<T>` as a normal field under an object and using an Object type field?
 1. If a child object is created via `new_with_parent`, it is a child of the parent object and is under the same SMT subtree. This facilitates management of the entire parent object's state transition, queries and so on.
 2. If an object is created globally, even if it is added to the dynamic fields of an object via `add_field`, it actually a global object, and its state tree is under the global Root.
-</Callout>
 
 ### List of Methods for Regular Dynamic Fields
 
@@ -318,9 +316,7 @@ Note: Since the Object type itself also has the `store` ability, what is the dif
 * `Object<T>` represents the reference to an Object that can be `copy`,`drop`, whereas in Rooch, `Object<T>` is a single instance and cannot be `copy`, `drop`.
 * Aptos Object uses `DeleteRef`, `ExtendRef`, `TransferRef` to indicate different operation permissions on Object. But Rooch Object differentiates different permissions using read-only reference, mutable reference, and instance.
 
-<Callout>
 TODO: This part of this document needs to be improved
-</Callout>
 
 ## References
 
