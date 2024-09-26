@@ -28,7 +28,6 @@ You can read more about coding conventions in the
 [Coding Conventions](../special-topics/coding-conventions.md) section.
 
 ```Move
-{{#include ../../../packages/samples/sources/move-basics/module.move:module}}
 ```
 
 Structs, functions, constants and imports all part of the module:
@@ -47,7 +46,6 @@ both are identical because there's a `book = "0x0"` record in the `[addresses]` 
 `Move.toml`.
 
 ```Move
-{{#include ../../../packages/samples/sources/move-basics/module.move:address_literal}}
 ```
 
 Addresses section in the Move.toml:
@@ -64,7 +62,6 @@ Module members are declared inside the module body. To illustrate that, let's de
 with a struct, a function and a constant:
 
 ```Move
-{{#include ../../../packages/samples/sources/move-basics/module.move:members}}
 ```
 
 ## Further reading

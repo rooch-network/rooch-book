@@ -24,7 +24,6 @@ price for a product, you might define a constant for it. Constants are stored in
 bytecode, and each time they are used, the value is copied.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/constants.move:shop_price}}
 ```
 
 ## Naming Convention
@@ -35,7 +34,6 @@ It's a way to make constants stand out from other identifiers in the code. One e
 [error constants](./assert-and-abort.md#assert-and-abort), which are written in ECamelCase.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/constants.move:naming}}
 ```
 
 ## Constants are Immutable
@@ -61,7 +59,6 @@ codebase. But due to constants being private to the module, they can't be access
 modules. One way to solve this is to define a "config" module that exports the constants.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/constants.move:config}}
 ```
 
 This way other modules can import and read the constants, and the update process is simplified. If

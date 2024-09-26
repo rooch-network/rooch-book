@@ -12,7 +12,6 @@ has a vector literal syntax that allows you to create vectors using the `vector`
 square brackets containing the elements (or no elements for an empty vector).
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/vector.move:literal}}
 ```
 
 The `vector` type is a built-in type in Move, and does not need to be imported from a module.
@@ -31,7 +30,6 @@ commonly used operations:
 - `remove`: Removes an element at a given index.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/vector.move:methods}}
 ```
 
 ## Destroying a Vector of non-droppable types
@@ -41,7 +39,6 @@ ability, the vector value cannot be ignored. However, if the vector is empty, co
 explicit call to `destroy_empty` function.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/vector.move:no_drop}}
 ```
 
 ## Further reading

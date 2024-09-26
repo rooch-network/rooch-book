@@ -7,7 +7,6 @@ language, which ensures that all assets are properly handled. An attempt to igno
 the `drop` ability will result in a compilation error.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/drop-ability.move:main}}
 ```
 
 The `drop` ability is often used on custom collection types to eliminate the need for special

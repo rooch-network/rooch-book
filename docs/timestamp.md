@@ -18,7 +18,7 @@ At present, Rooch has implemented the function of relaying Ethereum block inform
 rooch server start --eth-rpc-url https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161
 ```
 
-![](/docs/relayer-get.png)
+<!-- ![](/docs/relayer-get.png) -->
 
 > Note that the `timestamp` after the block height `number`.
 
@@ -133,6 +133,6 @@ After starting the relay service, execute the Shell command:
 rooch move run --function 0x9fd886140ae373a85101d2c7a5f2eda077ca9a05c3b1c221594ff4473a702c83::timestamp::get_timestamp --args object:0x2::object::Timestamp --sender-account default
 ```
 
-![](/docs/timestamp-obtain.png)
+<!-- ![](/docs/timestamp-obtain.png) -->
 
 You can see the `debug` message from the server, and we have successfully obtained the timestamp value.

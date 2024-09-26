@@ -22,8 +22,8 @@ identified by an [address](./address.md). A published package can be interacted 
 [transactions](./what-is-a-transaction.md) calling its functions. It can also act as a dependency
 for other packages.
 
-> To create a new package, use the `sui move new` command. To learn more about the command, run
-> `sui move new --help`.
+> To create a new package, use the `rooch move new` command. To learn more about the command, run
+> `rooch move new --help`.
 
 Package consists of modules - separate scopes that contain functions, types, and other items.
 
