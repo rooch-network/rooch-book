@@ -26,5 +26,9 @@
   "sidebar.tutorialSidebar.category.storage": {
     "message": "storage",
     "description": "The label for category storage in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.move-advanced": {
+    "message": "move-advanced",
+    "description": "The label for category move-advanced in sidebar tutorialSidebar"
   }
 }
