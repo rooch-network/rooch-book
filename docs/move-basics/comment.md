@@ -1,17 +1,5 @@
 # Comments
 
-<!--
-
-Chapter: Basic Syntax
-Goal: Introduce comments.
-Notes:
-    - doc comments are used in docgen
-    - only public members are documented
-    - doc comments are placed in between attributes and the definition
-    - doc comments are allowed for: modules, structs, functions, constants
-    - give an example of how doc comments are translated
- -->
-
 Comments are a way to add notes or document your code. They are ignored by the compiler and don't
 result in the Move bytecode. You can use comments to explain what your code does, to add notes to
 yourself or other developers, to temporarily remove a part of your code, or to generate
@@ -21,12 +9,26 @@ comment.
 ## Line comment
 
 ```Move
+module book::comments_line {
+    fun some_function() {
+        // this is a comment line
+    }
+}
 ```
 
 You can use double slash `//` to comment out the rest of the line. Everything after `//` will be
 ignored by the compiler.
 
 ```Move
+module book::comments_line_2 {
+    // let's add a note to everything!
+    fun some_function_with_numbers() {
+        let a = 10;
+        // let b = 10 this line is commented and won't be executed
+        let b = 5; // here comment is placed after code
+        a + b; // result is 15, not 10!
+    }
+}
 ```
 
 ## Block comment
@@ -48,6 +50,18 @@ They are similar to block comments, but they start with three slashes `///` and 
 the definition of the item they document.
 
 ```Move
-```
+module book::comments_block {
+    fun /* you can comment everywhere */ go_wild() {
+        /* here
+           there
+           everywhere */ let a = 10;
+        let b = /* even here */ 10; /* and again */
+        a + b;
+    }
+    /* you can use it to remove certain expressions or definitions
+    fun empty_commented_out() {
 
-<!-- TODO: docgen, which members are in the documentation -->
+    }
+    */
+}
+```
