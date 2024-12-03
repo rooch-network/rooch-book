@@ -1,0 +1,30 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.concept": {
+    "message": "concept",
+    "description": "The label for category concept in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.move-basics": {
+    "message": "move-basics",
+    "description": "The label for category move-basics in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.object": {
+    "message": "object",
+    "description": "The label for category object in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.prepare": {
+    "message": "prepare",
+    "description": "The label for category prepare in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.rooch-features": {
+    "message": "rooch-features",
+    "description": "The label for category rooch-features in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.storage": {
+    "message": "storage",
+    "description": "The label for category storage in sidebar tutorialSidebar"
+  }
+}
