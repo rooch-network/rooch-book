@@ -7,6 +7,28 @@ language, which ensures that all assets are properly handled. An attempt to igno
 the `drop` ability will result in a compilation error.
 
 ```move
+module book::drop_ability {
+
+    /// This struct has the `drop` ability.
+    public struct IgnoreMe has drop {
+        a: u8,
+        b: u8,
+    }
+
+    /// This struct does not have the `drop` ability.
+    public struct NoDrop {}
+
+    #[test]
+    // Create an instance of the `IgnoreMe` struct and ignore it.
+    // Even though we constructed the instance, we don't need to unpack it.
+    fun test_ignore() {
+        let no_drop = NoDrop {};
+        let _ = IgnoreMe { a: 1, b: 2 }; // no need to unpack
+
+        // The value must be unpacked for the code to compile.
+        let NoDrop {} = no_drop; // OK
+    }
+}
 ```
 
 The `drop` ability is often used on custom collection types to eliminate the need for special
@@ -34,7 +56,3 @@ All of the types defined in the standard library have the `drop` ability as well
 - [Option](./../move-basics/option.md)
 - [String](./../move-basics/string.md)
 - [TypeName](./../move-basics/type-reflection.md#typename)
-
-## Further reading
-
-- [Type Abilities](/reference/type-abilities.html) in the Move Reference.

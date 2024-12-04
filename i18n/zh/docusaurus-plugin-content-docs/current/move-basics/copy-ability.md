@@ -12,7 +12,7 @@ assets and resources, and inability to copy is a key element of the resource mod
 However, Move type system allows you to define custom types with the _copy_ ability.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/copy-ability.move:copyable}}
+public struct Copyable has copy {}
 ```
 
 在上面的示例中，a 被隐式复制到 b，然后使用解引用运算符显式复制到 c。如果 Copyable 不具备复制能力，则代码将无法编译，并且 Move 编译器将引发错误。
@@ -21,7 +21,13 @@ In the example above, we define a custom type `Copyable` with the _copy_ ability
 instances of `Copyable` can be copied, both implicitly and explicitly.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/copy-ability.move:copyable_test}}
+let a = Copyable {};
+let b = a;   // `a` is copied to `b`
+let c = *&b; // explicit copy via dereference operator
+
+let Copyable {} = a; // doesn't have `drop`
+let Copyable {} = b; // doesn't have `drop`
+let Copyable {} = c; // doesn't have `drop`
 ```
 
 复制能力与掉落能力密切相关。如果一个类型具有复制能力，那么它很可能也应该具有复制能力。这是因为当不再需要实例时需要删除能力来清理资源。如果类型只有副本，则管理其实例会变得更加复杂，因为不能忽略值。
@@ -40,7 +46,7 @@ required to clean up the resources when the instance is no longer needed. If a t
 then managing its instances gets more complicated, as the values cannot be ignored.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/copy-ability.move:copy_drop}}
+public struct Value has copy, drop {}
 ```
 
 Move 中的所有基本类型的行为就好像它们具有复制和放置功能一样。这意味着它们可以被复制和删除，并且 Move 编译器将为它们处理内存管理。
@@ -67,7 +73,3 @@ All of the types defined in the standard library have the `copy` ability as well
 - [Option](./../move-basics/option.md)
 - [String](./../move-basics/string.md)
 - [TypeName](./../move-basics/type-reflection.md#typename)
-
-## Further reading
-
-- [Type Abilities](/reference/type-abilities.html) in the Move Reference.

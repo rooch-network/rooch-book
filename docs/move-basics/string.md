@@ -9,17 +9,6 @@ module defines a `String` type and methods for UTF-8 encoded strings, and the se
 > So in many cases, a String does not need to be constructed in the
 > [Transaction Block](./../concepts/what-is-a-transaction.md).
 
-<!--
-
-## Bytestring Literal
-
-TODO:
-
-- reference vector
-- reference literals - [Expression](./expression.md#literals)
-
--->
-
 ## Strings are bytes
 
 No matter which type of string you use, it is important to know that strings are just bytes. The
@@ -28,6 +17,22 @@ safety checks and methods to work with strings, but at the end of the day, they 
 bytes.
 
 ```move
+module book::custom_string {
+    /// Anyone can implement a custom string-like type by wrapping a vector.
+    public struct MyString {
+        bytes: vector<u8>,
+    }
+
+    /// Implement a `from_bytes` function to convert a vector of bytes to a string.
+    public fun from_bytes(bytes: vector<u8>): MyString {
+        MyString { bytes }
+    }
+
+    /// Implement a `bytes` function to convert a string to a vector of bytes.
+    public fun bytes(self: &MyString): &vector<u8> {
+        &self.bytes
+    }
+}
 ```
 
 ## Working with UTF-8 Strings
@@ -55,6 +60,15 @@ To create a new UTF-8 `String` instance, you can use the `string::utf8` method. 
 convenience.
 
 ```move
+// the module is `std::string` and the type is `String`
+use std::string::{Self, String};
+
+// strings are normally created using the `utf8` function
+// type declaration is not necessary, we put it here for clarity
+let hello: String = string::utf8(b"Hello");
+
+// The `.to_string()` alias on the `vector<u8>` is more convenient
+let hello = b"Hello".to_string();
 ```
 
 ### Common Operations
@@ -98,6 +112,15 @@ otherwise.
 > Rust.
 
 ```move
+// this is a valid UTF-8 string
+let hello = b"Hello".try_to_string();
+
+assert!(hello.is_some(), 0); // abort if the value is not valid UTF-8
+
+// this is not a valid UTF-8 string
+let invalid = b"\xFF".try_to_string();
+
+assert!(invalid.is_none(), 0); // abort if the value is valid UTF-8
 ```
 
 ### UTF-8 Limitations
