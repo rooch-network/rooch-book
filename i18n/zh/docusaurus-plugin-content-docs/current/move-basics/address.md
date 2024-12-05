@@ -1,29 +1,45 @@
-# Address
+# 地址类型
 
-Address is a unique identifier of a location on the blockchain. It is used to identify
-[packages](./packages.md), [accounts](./what-is-an-account.md), and [objects](./object-storage.md).
-Address has a fixed size of 32 bytes and is usually represented as a hexadecimal string prefixed
-with `0x`. Addresses are case insensitive.
+在Move中，为了表示地址，使用了一种特殊的类型称为address。它是一个32字节的值，用于表示区块链上的任何地址。地址有两种语法形式：以0x为前缀的十六进制地址和命名地址。
 
 ```move
-0xe51ff5cd221a81c3d6e22b9e670ddf99004d71de4f769b0312b68c7c4872e2f1
+// address literal
+let value: address = @0x1;
+
+// named address registered in Move.toml
+let value = @std;
+let other = @rooch;
 ```
 
-The address above is an example of a valid address. It is 64 characters long (32 bytes) and prefixed
-with `0x`.
+地址字面量以@符号开头，后面跟着一个十六进制数字或标识符。十六进制数字被解释为一个32字节的值。编译器将在Move.toml文件中查找该标识符，并将其替换为相应的地址。如果在Move.toml文件中找不到该标识符，编译器将抛出错误。
 
-Rooch also has reserved addresses that are used to identify standard packages and objects. Reserved
-addresses are typically simple values that are easy to remember and type. For example, the address
-of the Standard Library is `0x1`. Addresses, shorter than 32 bytes, are padded with zeros to the
-left.
+## 转换
+
+Rooch 框架提供了一组辅助函数来处理地址。由于地址类型是一个32字节的值，可以将其转换为u256类型，反之亦然。它还可以转换为vector<u8>类型和从vector<u8>类型转换回地址类型。
+
+示例：将地址转换为u256类型，然后再转换回来。
 
 ```move
-0x1 = 0x0000000000000000000000000000000000000000000000000000000000000001
+use rooch::address;
+
+let addr_as_u256: u256 = address::to_u256(@0x1);
+let addr = address::from_u256(addr_as_u256);
 ```
 
-Here are some examples of reserved addresses:
+示例：将地址转换为 `vector<u8>` 类型，然后再转换回来。
 
-- `0x1` - address of the Move Standard Library (alias `std`)
-- `0x2` - address of the MoveOS Standard Library (alias `moveos_std`)
-- `0x3` - address of the Rooch Framework (alias `rooch_framework`)
+```move
+use rooch::address;
 
+let addr_as_u8: vector<u8> = address::to_bytes(@0x1);
+let addr = address::from_bytes(addr_as_u8);
+```
+
+示例：将地址转换为字符串。
+
+```mvoe
+use rooch::address;
+use std::string::String;
+
+let addr_as_string: String = address::to_string(@0x1);
+```

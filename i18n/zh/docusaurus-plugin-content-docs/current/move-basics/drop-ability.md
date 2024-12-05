@@ -9,7 +9,28 @@ language, which ensures that all assets are properly handled. An attempt to igno
 the `drop` ability will result in a compilation error.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/drop-ability.move:main}}
+module book::drop_ability {
+
+    /// This struct has the `drop` ability.
+    public struct IgnoreMe has drop {
+        a: u8,
+        b: u8,
+    }
+
+    /// This struct does not have the `drop` ability.
+    public struct NoDrop {}
+
+    #[test]
+    // Create an instance of the `IgnoreMe` struct and ignore it.
+    // Even though we constructed the instance, we don't need to unpack it.
+    fun test_ignore() {
+        let no_drop = NoDrop {};
+        let _ = IgnoreMe { a: 1, b: 2 }; // no need to unpack
+
+        // The value must be unpacked for the code to compile.
+        let NoDrop {} = no_drop; // OK
+    }
+}
 ```
 
 删除功能通常用于自定义集合类型，以便在不再需要集合时无需对其进行特殊处理。例如，向量类型具有丢弃能力，允许在不再需要向量时将其忽略。然而，Move的类型系统最大的特点就是能够不掉落。这可确保资产得到正确处理而不是被忽视。
@@ -46,6 +67,3 @@ All of the types defined in the standard library have the `drop` ability as well
 - [String](./../move-basics/string.md)
 - [TypeName](./../move-basics/type-reflection.md#typename)
 
-## Further reading
-
-- [Type Abilities](/reference/type-abilities.html) in the Move Reference.

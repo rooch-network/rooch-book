@@ -8,12 +8,20 @@ assets and resources, and inability to copy is a key element of the resource mod
 However, Move type system allows you to define custom types with the _copy_ ability.
 
 ```move
+public struct Copyable has copy {}
 ```
 
 In the example above, we define a custom type `Copyable` with the _copy_ ability. This means that
 instances of `Copyable` can be copied, both implicitly and explicitly.
 
 ```move
+let a = Copyable {};
+let b = a;   // `a` is copied to `b`
+let c = *&b; // explicit copy via dereference operator
+
+let Copyable {} = a; // doesn't have `drop`
+let Copyable {} = b; // doesn't have `drop`
+let Copyable {} = c; // doesn't have `drop`
 ```
 
 In the example above, `a` is copied to `b` implicitly, and then explicitly copied to `c` using the
@@ -28,6 +36,7 @@ required to clean up the resources when the instance is no longer needed. If a t
 then managing its instances gets more complicated, as the values cannot be ignored.
 
 ```move
+public struct Value has copy, drop {}
 ```
 
 All of the primitive types in Move behave as if they have the _copy_ and _drop_ abilities. This
@@ -48,7 +57,3 @@ All of the types defined in the standard library have the `copy` ability as well
 - [Option](./../move-basics/option.md)
 - [String](./../move-basics/string.md)
 - [TypeName](./../move-basics/type-reflection.md#typename)
-
-## Further reading
-
-- [Type Abilities](/reference/type-abilities.html) in the Move Reference.

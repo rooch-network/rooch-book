@@ -54,7 +54,15 @@ remove: 移除给定索引处的元素。
 
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/vector.move:methods}}
+let mut v = vector[10u8, 20, 30];
+
+assert!(v.length() == 3, 0);
+assert!(!v.is_empty(), 1);
+
+v.push_back(40);
+let last_value = v.pop_back();
+
+assert!(last_value == 40, 2);
 ```
 
 ## Destroying a Vector of non-droppable types
@@ -66,9 +74,16 @@ ability, the vector value cannot be ignored. However, if the vector is empty, co
 explicit call to `destroy_empty` function.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/vector.move:no_drop}}
+    /// A struct without `drop` ability.
+    public struct NoDrop {}
+
+    #[test]
+    fun test_destroy_empty() {
+        // Initialize a vector of `NoDrop` elements.
+        let v = vector<NoDrop>[];
+
+        // While we know that `v` is empty, we still need to call
+        // the explicit `destroy_empty` function to discard the vector.
+        v.destroy_empty();
+    }
 ```
-
-## Further reading
-
-- [Vector](/reference/primitive-types/vector.html) in the Move Reference.

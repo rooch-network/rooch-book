@@ -7,6 +7,20 @@ the `fun` keyword at the module level. Just like any other module member, by def
 and can only be accessed from within the module.
 
 ```move
+module book::math {
+    /// Function takes two arguments of type `u64` and returns their sum.
+    /// The `public` visibility modifier makes the function accessible from
+    /// outside the module.
+    public fun add(a: u64, b: u64): u64 {
+        a + b
+    }
+
+    #[test]
+    fun test_add() {
+        let sum = add(1, 2);
+        assert!(sum == 3, 0);
+    }
+}
 ```
 
 In this example, we define a function `add` that takes two arguments of type `u64` and returns their
@@ -26,6 +40,9 @@ code that contains a sequence of statements and expressions. The last expression
 body is the return value of the function.
 
 ```move
+fun return_nothing() {
+    // empty expression, function returns `()`
+}
 ```
 
 ## Accessing functions
@@ -36,6 +53,14 @@ function called `add` in the `math` module in the `book` package, the path to it
 `book::math::add`, or, if the module is imported, `math::add`.
 
 ```move
+module book::use_math {
+    use book::math;
+
+    fun call_add() {
+        // function is called via the path
+        let sum = math::add(1, 2);
+    }
+}
 ```
 
 ## Multiple return values
@@ -45,25 +70,33 @@ value from a function. The return type of the function is a tuple of types. The 
 tuple of expressions.
 
 ```move
+fun get_name_and_age(): (vector<u8>, u8) {
+    (b"John", 25)
+}
 ```
 
 Result of a function call with tuple return has to be unpacked into variables via `let (tuple)`
 syntax:
 
 ```move
+// Tuple must be destructured to access its elements.
+// Name and age are declared as immutable variables.
+let (name, age) = get_name_and_age();
+assert!(name == b"John", 0);
+assert!(age == 25, 0);
 ```
 
 If any of the declared values need to be declared as mutable, the `mut` keyword is placed before the
 variable name:
 
 ```move
+// declare name as mutable, age as immutable
+let (mut name, age) = get_name_and_age();
 ```
 
 If some of the arguments are not used, they can be ignored with the `_` symbol:
 
 ```move
+// ignore the name, only use the age
+let (_, age) = get_name_and_age();
 ```
-
-## Further reading
-
-- [Functions](/reference/functions.html) in the Move Reference.

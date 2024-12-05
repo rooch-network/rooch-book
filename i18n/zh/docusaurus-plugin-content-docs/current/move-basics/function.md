@@ -9,7 +9,20 @@ the `fun` keyword at the module level. Just like any other module member, by def
 and can only be accessed from within the module.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/function.move:math}}
+module book::math {
+    /// Function takes two arguments of type `u64` and returns their sum.
+    /// The `public` visibility modifier makes the function accessible from
+    /// outside the module.
+    public fun add(a: u64, b: u64): u64 {
+        a + b
+    }
+
+    #[test]
+    fun test_add() {
+        let sum = add(1, 2);
+        assert!(sum == 3, 0);
+    }
+}
 ```
 
 在此示例中，我们定义了一个函数 add，它接受两个 u64 类型的参数并返回它们的和。该函数是从 test_add 函数调用的，该函数是位于同一模块中的测试函数。在测试中，我们将 add 函数的结果与预期值进行比较，如果结果不同则中止执行。
@@ -35,7 +48,9 @@ code that contains a sequence of statements and expressions. The last expression
 body is the return value of the function.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/function.move:return_nothing}}
+fun return_nothing() {
+    // empty expression, function returns `()`
+}
 ```
 
 ## Accessing functions
@@ -48,7 +63,14 @@ function called `add` in the `math` module in the `book` package, the path to it
 `book::math::add`, or, if the module is imported, `math::add`.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/function.move:use_math}}
+module book::use_math {
+    use book::math;
+
+    fun call_add() {
+        // function is called via the path
+        let sum = math::add(1, 2);
+    }
+}
 ```
 
 ## Multiple return values
@@ -60,7 +82,9 @@ value from a function. The return type of the function is a tuple of types. The 
 tuple of expressions.
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/function.move:tuple_return}}
+fun get_name_and_age(): (vector<u8>, u8) {
+    (b"John", 25)
+}
 ```
 
 带有元组返回的函数调用的结果必须通过 let (tuple) 语法解包到变量中：
@@ -69,7 +93,11 @@ Result of a function call with tuple return has to be unpacked into variables vi
 syntax:
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/function.move:tuple_return_imm}}
+// Tuple must be destructured to access its elements.
+// Name and age are declared as immutable variables.
+let (name, age) = get_name_and_age();
+assert!(name == b"John", 0);
+assert!(age == 25, 0);
 ```
 
 如果任何声明的值需要声明为可变的，则将 mut 关键字放在变量名称之前：
@@ -78,7 +106,8 @@ If any of the declared values need to be declared as mutable, the `mut` keyword 
 variable name:
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/function.move:tuple_return_mut}}
+// declare name as mutable, age as immutable
+let (mut name, age) = get_name_and_age();
 ```
 
 如果某些参数未使用，可以使用 _ 符号将其忽略：
@@ -86,9 +115,7 @@ variable name:
 If some of the arguments are not used, they can be ignored with the `_` symbol:
 
 ```move
-{{#include ../../../packages/samples/sources/move-basics/function.move:tuple_return_ignore}}
+// ignore the name, only use the age
+let (_, age) = get_name_and_age();
 ```
 
-## Further reading
-
-- [Functions](/reference/functions.html) in the Move Reference.
