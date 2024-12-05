@@ -1,21 +1,21 @@
 # Rooch Object
 
-In Rooch, an Object is akin to a box model. Creating an Object is equivalent to creating a box in the state space, encapsulating an instance of type `T` within it, with `ObjectID` serving as the address of this box. Moreover, this box supports the dynamic addition of states, which is the dynamic field feature of an Object.
+Rooch 中的 Object 是一种箱子（Box）模式的 Object。创建一个 Object 相当于在状态空间中创建了一个箱子，可以将类型 `T` 的实例封装在箱子中，而 `ObjectID` 是这个箱子的地址。此外，这个箱子还支持动态添加状态，即 Object 的动态字段特性。
 
-If we consider the state space of smart contracts as analogous to the heap memory of a program, an Object is similar to a smart pointer, providing references and operations on the state, as well as lifecycle management.
+如果我们将智能合约的状态空间比作程序的堆内存，Object 类似于一个智能指针，提供了对状态的引用和操作，以及生命周期的管理。
 
-## Ownership of Object
+## Object 的所有权
 
-The `owner` field of `ObjectEntity` signifies which account address owns the Object. Through `owner`, Objects can be categorized into:
+`Object` 的 `owner` 代表 Object 属于哪个账户地址，通过 `owner` 可以将 Object 分为两种：
 
-1. `SystemOwnedObject`: Objects with `owner` as `0x0`. After the creation of the object, it is defaulted to `SystemOwnedObject`.
-2. `UserOwnedObject`: Objects with `owner` non-equal to `0x0`. Once the Object is transferred to a user, `owner` will be set as the address of that user.
+1. `SystemOwnedObject`: `owner` 为 `0x0` 的 Object。Object 创建后默认为 `SystemOwnedObject`。
+2. `UserOwnedObject`: `owner` 为非 `0x0` 的 Object。Object 被转让给某个用户后，`owner` 会被设置为该用户的地址。
 
-## Object Life Cycle
+## Object 的生命周期
 
-### Creating an Object
+### 创建 Object
 
-An Object of type `T` can be created by invoking `object::new` method.
+通过调用 `object::new` 方法可以创建出类型为 `T` 的 Object。
 
 ```move
 module moveos_std::object {
@@ -24,11 +24,11 @@ module moveos_std::object {
 }
 ```
 
-* This method is protected by `private_generics(T)`, hence, it can only be invoked by the module where `T` is located. The developer of  `T` module gets to decide whether to provide the methods to encapsulate `T` into the `Object`.
-* `T` must has the `key` ability.
-* The ObjectID of this Object is a globally unique ID automatically assigned by the system.
+* 该方法受 `private_generics(T)` 保护，所以只有 `T` 所在的模块才能调用该方法。`T` 模块的开发者可以决定是否提供将 `T` 封装到 `Object` 中的方法。
+* `T` 必须拥有 `key` ability。
+* 该 Object 的 ObjectID 是系统自动分配的全局唯一 ID。
 
-In addition to the above normal Objects, two special Object creation methods are provided that do not automatically assign IDs; instead, they generate IDs through a predetermined algorithm, called Named Object.
+同时还提供了两种特殊的 Object 创建方式，不自动分配 ID，而是通过预先确定的算法来生成 ID，叫做 Named Object。
 
 ```move
 module moveos_std::object {
@@ -40,14 +40,14 @@ module moveos_std::object {
 }
 ```
 
-* NamedObject: ObjectID is generated using type name of `T`. The generation formula is `sha3(type_name<T>())`. This is generally used for globally unique Objects, like `0x2::timestamp::Timestamp`.
-* Account NamedObject: ObjectID is generated using both the account address and type name of `T`. The generating formula is `sha3(account + type_name<T>())`. It's generally used for Objects of which each user owns only one, like `0x3::coin_store::CoinStore<CoinType>`.
+* NamedObject: 用类型 `T` 的类型名来生成 ObjectID。生成的公式为 `sha3(type_name<T>())`。一般用于全局唯一的 Object，比如 `0x2::timestamp::Timestamp`。
+* Account NamedObject: 是用 account 地址和 `T` 类型名来生成 ObjectID。生成的公式为 `sha3(account + type_name<T>())`。一般用于每个用户只有一个的 Object，比如 `0x3::coin_store::CoinStore<CoinType>`。
 
-### Operating an Object
+### 操作 Object
 
-#### Transferring Ownership
+#### 所有权转让
 
-Transfer the Object to `new_owner`:
+将 Object 转让给 `new_owner`： 
 
 ```move
 module moveos_std::object {
@@ -55,7 +55,7 @@ module moveos_std::object {
 }
 ```
 
-The `owner` retrieves their Object through `object_id`:
+`owner` 将属于自己的 Object 通过 `object_id` 拿出来
 
 ```move
 module moveos_std::object {
@@ -63,11 +63,11 @@ module moveos_std::object {
 }
 ```
 
-> Note: Once the Object is retrieved, the `owner` is set to `0x0`, at which point the Object becomes a `SystemOwnedObject`.
+> 注意：当 Object 被拿出来后，`owner` 会被设置为 `0x0`，这时候 Object 就变成了 `SystemOwnedObject`。   
 
-For the above methods, `T` must has `key + store` ability. Such types of Object are called `PublicObject`, and the user can transfer the ownership of `PublicObject` on their own.
+以上方法的 `T` 都必须拥有 `key + store` ability，我们可以把这种类型的 Object 称为 `PublicObject`，用户可以自己转让 `PublicObject` 的所有权。
 
-If it is the type of Object that only has `key` ability, we can call it `PrivateObject`. Users cannot directly transfer the ownership of `PrivateObject`, and the ownership transfer of `PrivateObject` must be assisted by the API provided by the module where `T` is located.
+如果是只有 `key` ability 的 Object，我们可以称为 `PrivateObject`，用户无法直接转让 `PrivateObject` 的所有权，需要借助 `T` 所在的模块提供的接口来转让 `PrivateObject` 的所有权。
 
 ```move
 module moveos_std::object {
@@ -76,17 +76,17 @@ module moveos_std::object {
 }
 ```
 
-The `take_object_extend` method is protected by `private_generics(T)`, and can only be invoked by modules where `T` is located. The developer gets to decide whether to provide the method to transfer `PrivateObject` to other users.
+`take_object_extend` 方法受 `private_generics(T)` 保护，只有 `T` 所在的模块才能调用，开发者可以决定是否提供将 `PrivateObject` 转让给其他用户的方法。
 
-#### Object Reference
+#### Object 的引用
 
-`Object<T>` can be referenced in two ways, one is read-only reference `&Object<T>`, the other one is mutable reference `&mut Object<T>`.
+`Object<T>` 有两种引用方式，一种是只读引用 `&Object<T>`，一种是可变引用 `&mut Object<T>`。
 
-We can get `&T` through `object::borrow(&Object<T>)` method, and `&mut T` through `object::borrow_mut(&mut Object<T>)`. As for what operations can be performed after obtaining `&T` and `&mut<T>`, this is defined by `T`'s module.
+我们可以通过 `object::borrow(&Object<T>)` 方法获取到 `&T`，通过 `object::borrow_mut(&mut Object<T>)` 获取到 `&mut T`。至于获取到 `&T` 和 `&mut T` 后，可以进行哪些操作，这个由 `T` 的模块来定义。
 
-There are two ways to get the Object reference:
+有两种方法获取 Object 的引用：
 
-1. Passed in through the `entry` method.
+1. 通过 `entry` 方法传递进来。
 
 ```move
 entry fun my_entry(obj: &Object<MyStruct>, obj_mut: &mut Object<MyStruct>) {
@@ -94,7 +94,7 @@ entry fun my_entry(obj: &Object<MyStruct>, obj_mut: &mut Object<MyStruct>) {
 }
 ```
 
-2. Obtained through `borrow_object` and `borrow_mut_object` methods.
+2. 通过 `borrow_object` 和 `borrow_mut_object` 方法获取。
 
 ```move
 module moveos_std::object {
@@ -104,10 +104,10 @@ module moveos_std::object {
 }
 ```
 
-* Note, all Objects in Rooch are open to read, everyone can get any `&Object<T>` through `ObjectID`.
-* The owner of the Object can get `&mut Object<T>` reference through `object::borrow_mut_object`.
+* 注意，Rooch 中的所有 Object 都是读公开的，任何人都可以通过 `ObjectID` 获取到任意的 `&Object<T>`。
+* Object 的所有者可以通过 `object::borrow_mut_object` 获取 `&mut Object<T>` 引用。
 
-Method extension for developers:
+给开发者的扩展方法：
 
 ```move
 module moveos_std::object {
@@ -116,16 +116,16 @@ module moveos_std::object {
 }
 ```
 
-* The module where `T` is located can get any `&mut Object<T>` reference through `ObjectID`, except for cases when that Object is frozen.
+* `T` 所在的模块可以通过 `ObjectID` 获取任意 `&mut Object<T>` 引用，除非该 Object 被冻结。
 
-#### Shared and Frozen Object
+#### 共享的(Shared)和冻结的(Frozen) Object
 
-SystemOwnedObject `Object<T>` has two states, `shared` and `frozen`.
+SystemOwnedObject `Object<T>` 有两种状态，一种是 `shared`，一种是 `frozen`。
 
-* `SharedObject`: Everyone can directly get the `&mut Object<T>` reference.
-* `FrozenObject`: No one can get the `&mut Object<T>` reference, even the module where `T` is located.
+* `SharedObject`：任何人都可以直接获取到 `&mut Object<T>` 引用。
+* `FrozenObject`：任何人都无法获取到 `&mut Object<T>` 引用，包括 `T` 所在的模块。
 
-Following method can shift `Object<T>` to `SharedObject`.
+通过以下方法可以将 `Object<T>` 变为 `SharedObject`。
 
 ```move
 module moveos_std::object {
@@ -133,7 +133,7 @@ module moveos_std::object {
 }
 ```
 
-To get the mutable reference of SharedObject, it must be passed through `entry` parameters or obtained via the method provided by `object`:
+要获取 SharedObject 的可变引用，需要通过 `entry` 参数传递或者 `object` 提供的方法：
 
 ```move
 module moveos_std::object {
@@ -141,7 +141,7 @@ module moveos_std::object {
 }
 ```
 
-Following method can shift `Object<T>` to `FrozenObject`.
+通过以下方法可以将 `Object<T>` 变为 `FrozenObject`。
 
 ```move
 module moveos_std::object {
@@ -149,11 +149,11 @@ module moveos_std::object {
 }
 ```
 
-> Note: Once Object becomes `frozen` or `shared`, it automatically become `SystemOwnedObject`; no one can directly get the instance of `Object<T>`, only the operations on the Object are feasible through the reference.
+> 注意：一旦 Object 变为 `frozen` 或者 `shared`，Object 就自动归属于 `SystemOwnedObject`，任何人都无法直接获取到 `Object<T>` 的实例，只能通过引用来操作 Object。
 
-#### Nested Object
+#### 嵌套的 Object
 
-Given `Object<T>` itself has `store` ability, it can be nested in other structures as fields or be saved in containers like `vector`, `Table`, etc.
+`Object<T>` 本身拥有 `store` ability，所以可以嵌套在另外的结构体中作为字段，或者保存到 `vector`、`Table` 等容器中。
 
 ```move
 struct Avatar has key {
@@ -162,14 +162,14 @@ struct Avatar has key {
 }
 ```
 
-In the above example, `Object<Head>` and `Object<Body>` are fields of the `Avatar` structure. These two objects belong to the `Avatar` structure. If the `Object<Avatar>` is transferred to other user, then the `Object<Head>` and `Object<Body>` will be transferred to the other user with the `Object<Avatar>`.
+上面的例子中，`Object<Head>` 和 `Object<Body>` 是 `Avatar` 结构体的字段，这两个对象归属于 `Avatar` 这个结构体，如果 `Object<Avatar>` 被转让给其他用户，那么 `Object<Head>` 和 `Object<Body>` 也会随着 `Object<Avatar>` 一起转让给其他用户。
 
-* Even in a nested state, Objects will still exist in Object Storage and can be accessed through the reference retrieval method described earlier.
-* Nested Objects will always be `SystemOwnedObject`.
+* 被嵌套的 Object 依然会在 Object Storage 中，可以通过前面描述的引用获取方法来获取 `Object<T>` 的引用。
+* 被嵌套的 Object 一定是 `SystemOwnedObject`。
 
-#### Deleting an Object
+#### 删除 Object
 
-The following method can be used to delete Object:
+通过以下方法可以删除 Object：
 
 ```move
 module moveos_std::object {
@@ -178,11 +178,11 @@ module moveos_std::object {
 }
 ```
 
-Deleting an Object will return the encapsulated data in the Object, this method can only be called by the module where `T` is located.
+删除 Object 后会返回 Object 中封装的数据，只有 `T` 所在的模块才能调用该方法。
 
-In summary, different users have different permissions for operations on Objects in different states. The following are the operations that contract developers and normal users can perform on different types of Objects using the methods provided by `moveos_std::object`:
+综上所述，针对不同状态的 Object 的操作，不同的用户具有不同的权限。以下是合约开发者和普通用户对不同类型 Object，使用 `moveos_std::object` 提供的方法可以进行的操作：
 
-- Contract developers
+- 合约开发者
 
 | object  | owner             | value abilities | transfer | borrow mut | take value | remove |
 |---------|-------------------|-----------------|----------|------------|------------|--------|
@@ -191,7 +191,7 @@ In summary, different users have different permissions for operations on Objects
 | public  | UserOwnedObject   | key, store      | √        | √          | √          | √      |
 | private | UserOwnedObject   | key             | √        | √          | √          | √      |
 
-- Normal users
+- 普通用户
 
 | object  | owner             | value abilities | transfer | borrow mut | take value | remove |
 |---------|-------------------|-----------------|----------|------------|------------|--------|
@@ -200,10 +200,9 @@ In summary, different users have different permissions for operations on Objects
 | public  | UserOwnedObject   | key, store      | √        | √          | √          | ×      |
 | private | UserOwnedObject   | key             | ×        | √          | ×          | ×      |
 
-
 ### Object RPC
 
-`ObjectEntity` data can be retrieved through `rooch_getState` RPC interface.
+通过 `rooch_getState` RPC 接口可以获取到 `ObjectEntity` 的数据。
 
 ```bash
 curl -H "Content-Type: application/json" -X POST \
@@ -223,7 +222,7 @@ https://dev-seed.rooch.network
         "type": "0x2::object::ObjectEntity<0x2::timestamp::Timestamp>",
         "value": {
           "flag": 4,
-          "id": "0x4e8d2c243339c6e02f8b7dd34436a1b1eb541b0fe4d938f845f4dbb9d9f218a2",
+          "id": "0x3a7dfe7a9a5cd608810b5ebd60c7adf7316667b17ad5ae703af301b74310bcca",
           "owner": "0x0000000000000000000000000000000000000000000000000000000000000000",
           "value": {
             "abilities": 8,
@@ -240,85 +239,83 @@ https://dev-seed.rooch.network
 }
 ```
 
-### Object-related Method List
+### Object 相关的方法列表
 
-The `context` and `object` modules provide the following functions that can operate on `Object`:
+`object` 模块提供以下函数，可以对 `Object` 进行操作：
 
-| Object Function                                                        | `#[private_generics<T>]` | Details                                                                                                     |
-|------------------------------------------------------------------------|--------------------------|-------------------------------------------------------------------------------------------------------------|
-| `object::new<T: key>(T): Object<T>`                                    | true                     | Create `Object` that encapsulates `T` within, return `Object<T>`                                            |
-| `object::new_named_object<T: key>(T): Object<T>`                       | true                     | The `ObjectID` of this `Object` is generated using `T` type                                                 |
-| `object::new_account_named_object<T: key>(address, T): Object<T>`      | true                     | The `ObjectID` of this  `Object` is generated using the address and `T` type                                |
-| `object::borrow_object<T: key>(ObjectID): &Object<T>`                  | false                    | Borrow read-only reference of `Object<T>` through ID                                                        |
-| `object::borrow_mut_object<T: key>(&signer, ObjectID): &mut Object<T>` | false                    | owner(&signer) borrows mutable reference of `Object<T>` through ID                                          |
-| `object::borrow_mut_object_shared<T: key>(ObjectID): &mut Object<T>`   | false                    | Borrow mutable reference of a shared `Object<T>` through ID                                                 |
-| `object::borrow_mut_object_extend<T: key>(ObjectID): &mut Object<T>`   | true                     | Extension method for developers, the module where `T` located can get any `&mut Object<T>` through ObjectID |
-| `object::exists_object(ObjectID): bool`                                | false                    | Check if the Object exists through its ObjectID                                                             |
-| `object::id<T>(&Object<T>): ObjectID`                                  | false                    | Get ObjectID                                                                                                |
-| `object::owner<T: key>(&Object<T>): address`                           | false                    | Get `owner` address                                                                                         |
-| `object::borrow<T: key>(&Object<T>): &T`                               | false                    | Borrow read-only reference of `T` through `&Object`                                                         |
-| `object::borrow_mut<T: key>(&mut Object<T>): &mut T`                   | false                    | Borrow mutable reference of `T`  through `&mut Object`                                                      |
-| `object::transfer<T: key + store>(Object<T>, address)`                 | false                    | Transfer ownership of `Object<T>` to `address`                                                              |
-| `object::transfer_extend<T: key>(Object<T>, address)`                  | true                     | Extension method for developers, transfer ownership of `Object<T>` to `address`                             |
-| `object::to_shared<T: key>(Object<T>)`                                 | false                    | Turn `Object<T>` to a `SharedObject`, where anyone can get its `&mut Object<T>`                             |
-| `object::is_shared<T: key>(&Object<T>): bool`                          | false                    | Check if `Object<T>` is `SharedObject`                                                                      |
-| `object::to_frozen<T: key>(Object<T>)`                                 | false                    | Turn `Object<T>` to a `FrozenObject`, where no one can get its `&mut Object<T>`                             |
-| `object::is_frozen<T: key>(&Object<T>): bool`                          | false                    | Check if `Object<T>` is `FrozenObject`                                                                      |
-| `object::remove<T: key>(Object<T>): T`                                 | true                     | Remove `Object<T>`, and return the `T` within. Only the module where `T` is located can delete`Object<T>`   |
+| Object 函数                                                                            | `#[private_generics<T>]`   | 说明                                                                          |
+| -------------------------------------------------------------------------------------- | -------------------------- | ----------------------------------------------                                |
+| `object::new<T: key>(T): Object<T>`                                                    | true                       | 创建 `Object`，将 `T` 封装到 `Object` 中，返回 `Object<T>`                    |
+| `object::new_named_object<T: key>(T): Object<T>`                                       | true                       | 该 `Object` 的 `ObjectID` 由 `T` 类型生成                                     |
+| `object::new_account_named_object<T: key>(address, T): Object<T>`                      | true                       | 该 `Object` 的 `ObjectID` 由 address 和 `T` 类型生成                          |
+| `object::borrow_object<T: key>(ObjectID): &Object<T>`                                  | false                      | 通过 ID 借用 `Object<T>` 的只读引用                                           |
+| `object::borrow_mut_object<T: key>(&signer, ObjectID): &mut Object<T>`                 | false                      | owner(&signer) 通过 ID 借用 `Object<T>` 的可变引用                            |
+| `object::borrow_mut_object_shared<T: key>(ObjectID): &mut Object<T>`                   | false                      | 通过 ID 借用共享 `Object<T>` 的可变引用                                       |
+| `object::borrow_mut_object_extend<T: key>(ObjectID): &mut Object<T>`                   | true                       | 给开发者的扩展方法，`T` 所在的模块可以通过 ObjectID 获取任意 `&mut Object<T>` |
+| `object::exists_object(ObjectID): bool`                                                | false                      | 通过 ObjectID 检测 Object 是否存在                                            |
+| `object::id<T>(&Object<T>): ObjectID`                                                  | false                      | 获取 ObjectID                                                                 |
+| `object::owner<T: key>(&Object<T>): address`                                           | false                      | 获取拥有者的地址                                                              |
+| `object::borrow<T: key>(&Object<T>): &T`                                               | false                      | `&Object` 借用 `T` 的只读引用                                                 |
+| `object::borrow_mut<T: key>(&mut Object<T>): &mut T`                                   | false                      | 通过 `&mut Object` 借用 `T` 的可变引用                                        |
+| `object::transfer<T: key + store>(Object<T>, address)`                                 | false                      | 将 `Object<T>` 所有权转移给 `address`                                         |
+| `object::transfer_extend<T: key>(Object<T>, address)`                                  | true                       | 给开发者的扩展方法，将 `Object<T>` 所有权转移给 `address`                     |
+| `object::to_shared<T: key>(Object<T>)`                                                 | false                      | 将 `Object<T>` 变为 `SharedObject`，任何人都可以直接获取到 `&mut Object<T>`   |
+| `object::is_shared<T: key>(&Object<T>): bool`                                          | false                      | 判断 `Object<T>` 是否为 `SharedObject`                                        |
+| `object::to_frozen<T: key>(Object<T>)`                                                 | false                      | 将 `Object<T>` 变为 `FrozenObject`，任何人都无法获取到 `&mut Object<T>`       |
+| `object::is_frozen<T: key>(&Object<T>): bool`                                          | false                      | 判断 `Object<T>` 是否为 `FrozenObject`                                        |
+| `object::remove<T: key>(Object<T>): T`                                                 | true                       | 删除 `Object<T>`，并返回其中的 `T`，只有 `T` 所在的模块才能删除 `Object<T>`   |
 
-In the above functions, if the `#[private_generics<T>]` column is `true`, it indicates that only the module where `T` is located can call the function.
+以上函数中，如果 `#[private_generics<T>]` 列为 `true`，表明只有 `T` 所在的模块才能调用。
 
-## Dynamic Fields of Object in Rooch
+## Object 的 dynamic fields
 
-Rooch provides the capability to manage dynamic fields for objects. Dynamic fields are Resources or Objects stored within an Object in the form of key-value pairs. Notably, the key can be heterogeneous, meaning it is not restricted by the type of the key. More specifically, an Object can be used as a [Table](https://github.com/rooch-network/rooch/blob/main/frameworks/moveos-stdlib/sources/table.move) or [Bag](https://github.com/rooch-network/rooch/blob/main/frameworks/moveos-stdlib/sources/bag.move).
+Rooch 为 object 提供了管理动态字段的能力。动态字段是指将 Resource 或者 Object 以 key, value 的形式储存在 Object 中。特别是，key 可以是异质的，即不受 key 类型的限制。更具体的说，Object 可以被当作 [Table](https://github.com/rooch-network/rooch/blob/main/frameworks/moveos-stdlib/sources/table.move) 或 [Bag](https://github.com/rooch-network/rooch/blob/main/frameworks/moveos-stdlib/sources/bag.move) 来使用。
 
-Rooch objects offer two types of dynamic fields: normal types and Object types.
+Rooch object 的提供了两种类型的动态字段：常规类型和Object类型。
 
-Normal dynamic fields are resources with `store` ability stored under an object; Object type dynamic fields store child Object instances under an object.
+常规类型的动态字段是指任何具有 `store` ability 的类型存放在 object 下；Object 类型的动态字段是将子 Object 对象存放在 object 下。
 
-Note: Since the Object type itself also has the `store` ability, what is the difference between storing the entire `Object<T>` as a normal field under an object and using an Object type field?
-1. If a child object is created via `new_with_parent`, it is a child of the parent object and is under the same SMT subtree. This facilitates management of the entire parent object's state transition, queries and so on.
-2. If an object is created globally, even if it is added to the dynamic fields of an object via `add_field`, it actually a global object, and its state tree is under the global Root.
+> 注意：由于 Object 类型本身也具有 `store` ability，那把整个 `Obejct<T>` 作为一个普通的字段存放在 object 下和使用 Object 类型字段有什么区别？
+> 1. 如果通过 `new_with_parent` 创建的子 object，是属于父 object 的子对象，与父 object 在同一个 SMT 子树下。这对于整个父 object 的状态迁移，查询等管理都很便捷。
+> 2. 如果在全局创建的 object，即使通过 `add_field` 放到 object 的动态字段中了，它实际上也是属于 global object，它的状态树处于 Root 根下。
 
-### List of Methods for Regular Dynamic Fields
+### 常规类型动态字段相关方法列表
 
-| Method | Description
+| 方法 | 说明
 |---|---
-| `add_field<T: key, K: copy + drop, V: store>(obj: &mut Object<T>, key: K, val: V)` | Adds a dynamic field to the object. If the same key already exists, it aborts. The field itself is not stored in the object and cannot be discovered from the object.
-| `borrow_field<T: key, K: copy + drop, V: store>(obj: &Object<T>, key: K): &V` | Gets an immutable reference to the value corresponding to the key in the object. If there is no corresponding key, it aborts.
-| `borrow_field_with_default<T: key, K: copy + drop, V: store>(obj: &Object<T>, key: K, default: &V): &V` | Gets an immutable reference to the value corresponding to the key in the object. If there is no corresponding key, it returns the default value.
-| `borrow_mut_field<T: key, K: copy + drop, V: store>(obj: &mut Object<T>, key: K): &mut V` | Gets a mutable reference to the value corresponding to the key in the object. If there is no corresponding key, it aborts.
-| `borrow_mut_field_with_default<T: key, K: copy + drop, V: store + drop>(obj: &mut Object<T>, key: K, default: V): &mut V` | Gets a mutable reference to the value corresponding to the key in the object. If there is no corresponding key, it inserts the key-value pair (`key`, `default`) and then returns a mutable reference to the corresponding value.
-| `remove_field<T: key, K: copy + drop, V: store>(obj: &mut Object<T>, key: K): V` | Removes the field corresponding to the key from the object and returns the value of the field. If there is no corresponding key, it aborts.
-| `contains_field<T: key, K: copy + drop>(obj: &Object<T>, key: K): bool` | Returns `true` if the object contains the field corresponding to the key, otherwise `false`.
-| `contains_field_with_type<T: key, K: copy + drop, V: store>(obj: &Object<T>, key: K): bool` | Returns `true` if the object contains the field corresponding to the key and the value type is `V`, otherwise `false`.
-| `upsert_field<T: key, K: copy + drop, V: store + drop>(obj: &mut Object<T>, key: K, value: V)` | If the object contains the field corresponding to the key, it updates the value of the field. If there is no corresponding key, it inserts the key-value pair (`key`, `value`).
-| `field_size<T: key>(obj: &Object<T>): u64` | Returns the number of fields in the object, i.e., the number of key-value pairs.
+| `add_field<T: key, K: copy + drop, V: store>(obj: &mut Object<T>, key: K, val: V)` | 添加一个动态字段到对象。如果已经存在相同的键，则会中止。字段本身不会存储在对象中，并且不能从对象中发现。
+| `borrow_field<T: key, K: copy + drop, V: store>(obj: &Object<T>, key: K): &V` | 获取对象中键对应的值的不可变引用。如果没有对应的键，则会中止。
+| `borrow_field_with_default<T: key, K: copy + drop, V: store>(obj: &Object<T>, key: K, default: &V): &V` | 获取对象中键对应的值的不可变引用。如果没有对应的键，则返回默认值。
+| `borrow_mut_field<T: key, K: copy + drop, V: store>(obj: &mut Object<T>, key: K): &mut V` | 获取对象中键对应的值的可变引用。如果没有对应的键，则会中止。
+| `borrow_mut_field_with_default<T: key, K: copy + drop, V: store + drop>(obj: &mut Object<T>, key: K, default: V): &mut V` | 获取对象中键对应的值的可变引用。如果没有对应的键，则插入键值对（`key`, `default`），然后返回对应的值的可变引用。
+| `remove_field<T: key, K: copy + drop, V: store>(obj: &mut Object<T>, key: K): V` | 从对象中移除键对应的字段，并返回字段的值。如果没有对应的键，则会中止。
+| `contains_field<T: key, K: copy + drop>(obj: &Object<T>, key: K): bool` | 如果对象中存在键对应的字段，则返回`true`，否则返回`false`。
+| `contains_field_with_type<T: key, K: copy + drop, V: store>(obj: &Object<T>, key: K): bool` | 如果对象中存在键对应的字段，并且字段的值类型为`V`，则返回`true`，否则返回`false`。
+| `upsert_field<T: key, K: copy + drop, V: store + drop>(obj: &mut Object<T>, key: K, value: V)` | 如果对象中存在键对应的字段，则更新字段的值。如果没有对应的键，则插入键值对（`key`, `value`）。
+| `field_size<T: key>(obj: &Object<T>): u64` | 返回对象中字段的数量，即键值对的数量。
 
-### List of Methods for Object Type Dynamic Fields
+### Object 类型动态字段相关方法列表
 
-| Method | Description
+| 方法 | 说明
 |---|---
-| `new_with_parent<P: key, T: key>(parent: &mut Object<P>, v: T): Object<T>` | Adds a new child object field to the object and returns the newly added child object. Only shared objects can add child object fields.
-| `new_with_parent_and_id<P: key, ID:drop, T: key>(parent: &mut Object<P>, id: ID, v: T): Object<T>` | Adds a new child object field to the object with a custom ID and returns the newly added child object. Only shared objects can add child object fields.
+| `new_with_parent<P: key, T: key>(parent: &mut Object<P>, v: T): Object<T>` | 向对象添加一个新的子对象字段，返回新添加的子对象。只有共享对象可以添加子对象字段。
+| `new_with_parent_and_id<P: key, ID:drop, T: key>(parent: &mut Object<P>, id: ID, v: T): Object<T>` | 使用自定义ID向对象添加一个新的子对象字段，返回新添加的子对象。只有共享对象可以添加子对象字段。
 
-## Comparison between Rooch Object, Sui Object, and Aptos Object
+## Rooch Object, Sui Object, Aptos Object 的比较
 
-### Sui Object
+### Sui Object 
 
-* Sui Object is a special kind of `struct` that requires the `struct` to has a `key` ability, and UID must be its first field. An Object is provided by the VM and storage, and there's no Object type in Move. In Rooch, Object is a type defined in Move itself.
-* Sui Object is indexed by the external system, and there's no method provided in the contract to retrieve the Object using ID; it can only be passed through parameters. Rooch provides both methods.
-* If a Sui Object gets nested or saved into other containers, it will become invisible in the global Object Storage. However, even when nested or saved into other containers, the Rooch Object can still be accessed in the global Object Storage.
+* Sui Object 是一种特殊的 `struct` 要求该 `struct` 必须拥有 `key` ability, 同时第一个字段必须是 `UID`，Object 是虚拟机和存储提供的，Move 中并不存在 Object 类型。Rooch 中的 Object 是在 Move 中定义的类型。
+* Sui Object 由外部系统索引，合约内并没有提供通过 ID 获取 Object 的方法，只能通过参数传递。Rooch 同时提供两种方式。
+* Sui Object 如果发生嵌套或者保存到其他容器中，Object 在全局 Object Storage 就不可见。而 Rooch 中的 Object 嵌套或者保存到其他容器中，Object 依然在全局 Object Storage 中可访问。
 
-### Aptos Object
+### Aptos Object 
 
-* At the base level, an Aptos Object is a special account, where the `address` is the `ObjectID`.
-* `Object<T>` represents the reference to an Object that can be `copy`,`drop`, whereas in Rooch, `Object<T>` is a single instance and cannot be `copy`, `drop`.
-* Aptos Object uses `DeleteRef`, `ExtendRef`, `TransferRef` to indicate different operation permissions on Object. But Rooch Object differentiates different permissions using read-only reference, mutable reference, and instance.
+* Aptos Object 底层是一种特殊的账户，该账户的 `address` 即 `ObjectID`。
+* `Object<T>` 代表对 Object 的引用，可以 `copy`，`drop`，而 Rooch 中 `Object<T>` 只有一个实例，不可以 `copy`，`drop`。
+* Aptos Object 通过 `DeleteRef`，`ExtendRef`，`TransferRef` 来表达对 Object 不同的操作权限，而 Rooch Object 通过只读引用，可变引用以及实例来区分不同的权限。
 
-TODO: This part of this document needs to be improved
-
-## References
+## 参考链接
 
 1. [Rooch Object API document](https://github.com/rooch-network/rooch/blob/main/frameworks/moveos-stdlib/doc/object.md)
 2. [Rooch Object Source code](https://github.com/rooch-network/rooch/blob/main/frameworks/moveos-stdlib/sources/object.move)
