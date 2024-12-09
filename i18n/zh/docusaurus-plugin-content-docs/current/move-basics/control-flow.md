@@ -1,31 +1,24 @@
-# Control Flow
+# 控制流
 
-Control flow statements are used to control the flow of execution in a program. They are used to
-make decisions, to repeat a block of code, and to exit a block of code early. Move has the following
-control flow statements (explained in detail below):
+控制流语句用于控制程序执行的流程。它们用于做出决策，重复执行代码块，以及提前退出代码块。Move 语言支持以下控制流语句（将在下文详细解释）：
 
-- [`if` and `if-else`](#conditional-statements) - making decisions on whether to execute a block of
-  code
-- [`loop` and `while` loops](#repeating-statements-with-loops) - repeating a block of code
-- [`break` and `continue` statements](#exiting-a-loop-early) - exiting a loop early
-- [`return`](#return) statement - exiting a function early
+- if 和 if-else - 根据条件决定是否执行一段代码
+- loop 和 while 循环 - 重复执行一段代码
+- break 和 continue 语句 - 提前退出循环
+- return 语句 - 提前退出函数
 
-## Conditional Statements
+## 条件语句
 
-The `if` expression is used to make decisions in a program. It evaluates a
-[boolean expression](./expression.md#literals) and executes a block of code if the expression is
-true. Paired with `else`, it can execute a different block of code if the expression is false.
+if 表达式用于在程序中做出决策。它会计算一个 布尔表达式，如果表达式为真，则执行一段代码块。配合 else 使用，则可以在表达式为假的情况下执行另一段代码块。
 
-The syntax for the `if` expression is:
+if 表达式的语法如下：
 
 ```move
 if (<bool_expression>) <expression>;
 if (<bool_expression>) <expression> else <expression>;
 ```
 
-Just like any other expression, `if` requires a semicolon, if there are other expressions following
-it. The `else` keyword is optional, except for the case when the resulting value is assigned to a
-variable. We will cover this below.
+与任何其他表达式一样，如果后面还有其他表达式，if 也需要一个分号。else 关键字可选，除非结果值需要赋值给变量。稍后我们将介绍这种情况。
 
 ```move
     #[test]
@@ -39,7 +32,7 @@ variable. We will cover this below.
     }
 ```
 
-Let's see how we can use `if` and `else` to assign a value to a variable:
+让我们看看如何使用 if 和 else 将值赋给变量：
 
 ```move
     #[test]
@@ -55,41 +48,28 @@ Let's see how we can use `if` and `else` to assign a value to a variable:
     }
 ```
 
-Here we assign the value of the `if` expression to the variable `y`. If `x` is greater than 0, `y`
-will be assigned the value 1, otherwise 0. The `else` block is necessary, because both branches must
-return a value of the same type. If we omit the `else` block, the compiler will throw an error.
+这里我们将 if 表达式的值赋给变量 y。如果 x 大于 0，则将值 1 赋给 y，否则为 0。else 块是必需的，因为这两个分支都必须返回相同类型的返回值。如果省略 else 块，编译器会抛出一个错误。
+
+条件表达式是 Move 中最重要的控制流语句之一。它们可以利用用户提供的输入或一些已经存储的数据来做出决策。特别地，它们用于 assert! 宏 中检查条件是否成立，如果不成立则中止执行。我们很快就会讲到这一点！
+
+## 使用循环重复语句
+
+循环用于多次执行一段代码块。Move 具有两种内置的循环类型：loop 和 while。在许多情况下它们可以互换使用，但是通常情况下，当迭代次数提前知道时使用 while 循环，当迭代次数未知或者有多个退出点时使用 loop 循环。
+
+循环在处理集合（例如向量）或在满足某个条件之前重复执行代码块时非常有用。但是，使用循环需要注意，因为它们可能导致无限循环，从而耗尽 Gas 并导致交易中止。
 
 
-Conditional expressions are one of the most important control flow statements in Move. They can use
-either user provided input or some already stored data to make decisions. In particular, they are
-used in the [`assert!` macro](./assert-and-abort.md) to check if a condition is true, and if not, to
-abort execution. We will get to it very soon!
+## while 循环
 
-## Repeating Statements with Loops
+while 语句用于只要布尔表达式为真就执行一段代码块。就像我们在 if 语句中看到的一样，布尔表达式会在循环的每次迭代之前进行计算。与条件语句一样，while 循环也是一个表达式，如果后面还有其他表达式，则需要一个分号。
 
-Loops are used to execute a block of code multiple times. Move has two built-in types of loops:
-`loop` and `while`. In many cases they can be used interchangeably, but usually `while` is used when
-the number of iterations is known in advance, and `loop` is used when the number of iterations is
-not known in advance or there are multiple exit points.
-
-Loops are helpful when dealing with collections, such as vectors, or when we want to repeat a block
-of code until a certain condition is met. However, it is important to be careful with loops, as they
-can lead to infinite loops, which can lead to gas exhaustion and the transaction being aborted.
-
-## The `while` loop
-
-The `while` statement is used to execute a block of code as long as a boolean expression is true.
-Just like we've seen with `if`, the boolean expression is evaluated before each iteration of the
-loop. Just like conditional statements, the `while` loop is an expression and requires a semicolon
-if there are other expressions following it.
-
-The syntax for the `while` loop is:
+while 循环的语法如下：
 
 ```move
 while (<bool_expression>) { <expressions>; };
 ```
 
-Here is an example of a `while` loop with a very simple condition:
+这是一个条件非常简单的 while 循环示例：
 
 ```move
     // This function iterates over the `x` variable until it reaches 10, the
@@ -118,11 +98,10 @@ Here is an example of a `while` loop with a very simple condition:
     }
 ```
 
-## Infinite `loop`
+## 无限 loop
 
-Now let's imagine a scenario where the boolean expression is always `true`. For example, if we
-literally passed `true` to the `while` condition. As you might expect, this would create an infinite
-loop, and this is almost what the `loop` statement works like.
+现在让我们想象一个布尔表达式始终为真的场景。例如，如果我们直接将 true 传递给 while 条件。正如你所料，这将创建一个无限循环，这几乎就是 loop 语句的工作方式。
+
 
 ```move
     #[test, expected_failure(out_of_gas, location=Self)]
@@ -139,13 +118,13 @@ loop, and this is almost what the `loop` statement works like.
     }
 ```
 
-An infinite `while`, or `while` without a condition, is a `loop`. The syntax for it is simple:
+一个无限的 while 循环，或者没有条件的 while 循环，就是一个 loop 循环。它的语法很简单：
 
 ```move
 loop { <expressions>; };
 ```
 
-Let's rewrite the previous example using `loop` instead of `while`:
+让我们用 loop 而不是 while 重写前面的例子：
 
 ```move
     #[test, expected_failure(out_of_gas, location=Self)]
@@ -162,67 +141,4 @@ Let's rewrite the previous example using `loop` instead of `while`:
     }
 ```
 
-Infinite loops on their own are not very useful in Move, since every operation in Move costs gas,
-and an infinite loop will lead to gas exhaustion. However, they can be used in combination with
-`break` and `continue` statements to create more complex loops.
-
-## Exiting a Loop Early
-
-As we already mentioned, infinite loops are rather useless on their own. And that's where we
-introduce the `break` and `continue` statements. They are used to exit a loop early, and to skip the
-rest of the current iteration, respectively.
-
-Syntax for the `break` statement is (without a semicolon):
-
-```move
-break
-```
-
-The `break` statement is used to stop the execution of a loop and exit it early. It is often used in
-combination with a conditional statement to exit the loop when a certain condition is met. To
-illustrate this point, let's turn the infinite `loop` from the previous example into something that
-looks and behaves more like a `while` loop:
-
-```move
-```
-
-Almost identical to the `while` loop, right? The `break` statement is used to exit the loop when `x`
-is 5. If we remove the `break` statement, the loop will run forever, just like the previous example.
-
-## Skipping an Iteration
-
-The `continue` statement is used to skip the rest of the current iteration and start the next one.
-Similarly to `break`, it is used in combination with a conditional statement to skip the rest of the
-iteration when a certain condition is met.
-
-Syntax for the `continue` statement is (without a semicolon):
-
-```move
-continue
-```
-
-The example below skips odd numbers and prints only even numbers from 0 to 10:
-
-```move
-```
-
-`break` and `continue` statements can be used in both `while` and `loop` loops.
-
-## Early Return
-
-The `return` statement is used to exit a [function](./function.md) early and return a value. It is
-often used in combination with a conditional statement to exit the function when a certain condition
-is met. The syntax for the `return` statement is:
-
-```move
-return <expression>
-```
-
-Here is an example of a function that returns a value when a certain condition is met:
-
-```move
-```
-
-Unlike in other languages, the `return` statement is not required for the last expression in a
-function. The last expression in a function block is automatically returned. However, the `return`
-statement is useful when we want to exit a function early if a certain condition is met.
+无限循环本身在 Move 中并不是非常有用，因为 Move 中的每个操作都需要 Gas，无限循环会导致 Gas 耗尽。但是，它们可以与 break 和 continue 语句结合使用来创建更复杂的循环。
