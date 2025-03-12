@@ -1,12 +1,10 @@
 # Comments
 
-Comments are a way to add notes or document your code. They are ignored by the compiler and don't
-result in the Move bytecode. You can use comments to explain what your code does, to add notes to
-yourself or other developers, to temporarily remove a part of your code, or to generate
-documentation. There are three types of comments in Move: line comment, block comment, and doc
-comment.
+Comments are a way to add notes or document your code. They are ignored by the compiler and don't result in the Move bytecode. You can use comments to explain what your code does, add notes to yourself or other developers, temporarily remove a part of your code, or generate documentation. There are three types of comments in Move: line comments, block comments, and doc comments.
 
-## Line comment
+## Line Comments
+
+Line comments start with `//` and comment out the rest of the line. Everything after `//` is ignored by the compiler.
 
 ```Move
 module book::comments_line {
@@ -16,38 +14,23 @@ module book::comments_line {
 }
 ```
 
-You can use double slash `//` to comment out the rest of the line. Everything after `//` will be
-ignored by the compiler.
+You can use `//` to add notes or explanations to your code.
 
 ```Move
 module book::comments_line_2 {
     // let's add a note to everything!
     fun some_function_with_numbers() {
         let a = 10;
-        // let b = 10 this line is commented and won't be executed
+        // let b = 10; this line is commented and won't be executed
         let b = 5; // here comment is placed after code
         a + b; // result is 15, not 10!
     }
 }
 ```
 
-## Block comment
+## Block Comments
 
-Block comments are used to comment out a block of code. They start with `/*` and end with `*/`.
-Everything between `/*` and `*/` will be ignored by the compiler. You can use block comments to
-comment out a single line or multiple lines. You can even use them to comment out a part of a line.
-
-```Move
-```
-
-This example is a bit extreme, but it shows how you can use block comments to comment out a part of
-a line.
-
-## Doc comment
-
-Documentation comments are special comments that are used to generate documentation for your code.
-They are similar to block comments, but they start with three slashes `///` and are placed before
-the definition of the item they document.
+Block comments are used to comment out a block of code. They start with `/*` and end with `*/`. Everything between `/*` and `*/` is ignored by the compiler. You can use block comments to comment out single or multiple lines, or even parts of a line.
 
 ```Move
 module book::comments_block {
@@ -63,5 +46,18 @@ module book::comments_block {
 
     }
     */
+}
+```
+
+This example shows how you can use block comments to comment out parts of a line.
+
+## Doc Comments
+
+Documentation comments are special comments used to generate documentation for your code. They start with three slashes `///` and are placed before the definition of the item they document.
+
+```Move
+/// This function adds two numbers.
+fun add(a: u64, b: u64): u64 {
+    a + b
 }
 ```
