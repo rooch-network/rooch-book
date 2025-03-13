@@ -1,22 +1,22 @@
-# Expression
+# Expressions
 
-In programming languages expression is a unit of code which returns a value, in Move, almost
-everything is an expression, - with the sole exception of `let` statement which is a declaration. In
+In programming languages, an expression is a unit of code that returns a value. In Move, almost
+everything is an expression, with the sole exception of the `let` statement, which is a declaration. In
 this section, we cover the types of expressions and introduce the concept of scope.
 
-> Expressions are sequenced with semicolons `;`. If there's "no expression" after the semicolon, the
+> Expressions are sequenced with semicolons `;`. If there's no expression after the semicolon, the
 > compiler will insert a unit `()` - an empty expression.
 
 ## Literals
 
-In the [Primitive Types](./primitive-types.md) section, we introduced the basic types of Move. And
-to illustrate them, we used literals. A literal is a notation for representing a fixed value in the
+In the [Primitive Types](./primitive-types.md) section, we introduced the basic types of Move. To
+illustrate them, we used literals. A literal is a notation for representing a fixed value in the
 source code. Literals are used to initialize variables and to pass arguments to functions. Move has
 the following literals:
 
 - `true` and `false` for boolean values
-- `0`, `1`, `123123` or other numeric for integer values
-- `0x0`, `0x1`, `0x123` or other hexadecimal for integer values
+- `0`, `1`, `123123` or other numeric values for integers
+- `0x0`, `0x1`, `0x123` or other hexadecimal values for integers
 - `b"bytes_vector"` for byte vector values
 - `x"0A"` HEX literal for byte values
 
