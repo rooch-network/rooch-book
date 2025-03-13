@@ -1,14 +1,14 @@
 # Function
 
 Functions are the building blocks of Move programs. They are called from
-[user transactions](../concepts/user-interaction.md) and from other functions and group executable
-code into reusable units. Functions can take arguments and return a value. They are declared with
-the `fun` keyword at the module level. Just like any other module member, by default they're private
-and can only be accessed from within the module.
+[user transactions](../concepts/user-interaction.md) and from other functions, grouping executable
+code into reusable units. Functions can take arguments and return values. They are declared with
+the `fun` keyword at the module level. By default, functions are private and can only be accessed
+from within the module.
 
 ```move
 module book::math {
-    /// Function takes two arguments of type `u64` and returns their sum.
+    /// This function takes two arguments of type `u64` and returns their sum.
     /// The `public` visibility modifier makes the function accessible from
     /// outside the module.
     public fun add(a: u64, b: u64): u64 {
@@ -25,12 +25,12 @@ module book::math {
 
 In this example, we define a function `add` that takes two arguments of type `u64` and returns their
 sum. The function is called from the `test_add` function, which is a test function located in the
-same module. In the test we compare the result of the `add` function with the expected value and
+same module. In the test, we compare the result of the `add` function with the expected value and
 abort the execution if the result is different.
 
-## Function declaration
+## Function Declaration
 
-> There's a convention to call functions in Move with the `snake_case` naming convention. This means
+> Functions in Move follow the `snake_case` naming convention. This means
 > that the function name should be all lowercase with words separated by underscores. For example,
 > `do_something`, `add`, `get_balance`, `is_authorized`, and so on.
 
@@ -45,7 +45,7 @@ fun return_nothing() {
 }
 ```
 
-## Accessing functions
+## Accessing Functions
 
 Just like any other module member, functions can be imported and accessed via a path. The path
 consists of the module path and the function name separated by `::`. For example, if you have a
@@ -63,7 +63,7 @@ module book::use_math {
 }
 ```
 
-## Multiple return values
+## Multiple Return Values
 
 Move functions can return multiple values, which is useful when you need to return more than one
 value from a function. The return type of the function is a tuple of types. The return value is a
@@ -75,7 +75,7 @@ fun get_name_and_age(): (vector<u8>, u8) {
 }
 ```
 
-Result of a function call with tuple return has to be unpacked into variables via `let (tuple)`
+The result of a function call with a tuple return has to be unpacked into variables via `let (tuple)`
 syntax:
 
 ```move
@@ -86,7 +86,7 @@ assert!(name == b"John", 0);
 assert!(age == 25, 0);
 ```
 
-If any of the declared values need to be declared as mutable, the `mut` keyword is placed before the
+If any of the declared values need to be mutable, the `mut` keyword is placed before the
 variable name:
 
 ```move
