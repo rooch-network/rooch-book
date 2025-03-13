@@ -1,34 +1,26 @@
 # String
 
-While Move does not have a built-in type to represent strings, it does have two standard
-implementations for strings in the [Standard Library](./standard-library.md). The `std::string`
-module defines a `String` type and methods for UTF-8 encoded strings, and the second module,
-`std::ascii`, provides an ASCII `String` type and its methods.
+Move does not have a built-in type to represent strings, but it provides two standard implementations in the [Standard Library](./standard-library.md). The `std::string` module defines a `String` type and methods for UTF-8 encoded strings, while the `std::ascii` module provides an ASCII `String` type and its methods.
 
-> Rooch execution environment automatically converts bytevector into `String` in transaction inputs.
-> So in many cases, a String does not need to be constructed in the
-> [Transaction Block](./../concepts/what-is-a-transaction.md).
+> The Rooch execution environment automatically converts bytevectors into `String` in transaction inputs. Therefore, in many cases, a String does not need to be constructed in the [Transaction Block](./../concepts/what-is-a-transaction.md).
 
-## Strings are bytes
+## Strings are Bytes
 
-No matter which type of string you use, it is important to know that strings are just bytes. The
-wrappers provided by the `string` and `ascii` modules are just that: wrappers. They do provide
-safety checks and methods to work with strings, but at the end of the day, they are just vectors of
-bytes.
+Regardless of the string type you use, it's important to understand that strings are just bytes. The `string` and `ascii` modules provide wrappers that include safety checks and methods to work with strings, but ultimately, they are vectors of bytes.
 
 ```move
 module book::custom_string {
-    /// Anyone can implement a custom string-like type by wrapping a vector.
+    /// Custom string-like type by wrapping a vector.
     public struct MyString {
         bytes: vector<u8>,
     }
 
-    /// Implement a `from_bytes` function to convert a vector of bytes to a string.
+    /// Convert a vector of bytes to a string.
     public fun from_bytes(bytes: vector<u8>): MyString {
         MyString { bytes }
     }
 
-    /// Implement a `bytes` function to convert a string to a vector of bytes.
+    /// Convert a string to a vector of bytes.
     public fun bytes(self: &MyString): &vector<u8> {
         &self.bytes
     }
@@ -37,9 +29,7 @@ module book::custom_string {
 
 ## Working with UTF-8 Strings
 
-While there are two types of strings in the standard library, the `string` module should be
-considered the default. It has native implementations of many common operations, and hence is more
-efficient than the `ascii` module, which is fully implemented in Move.
+The `string` module should be considered the default for working with strings. It has native implementations of many common operations, making it more efficient than the `ascii` module, which is fully implemented in Move.
 
 ### Definition
 
@@ -47,7 +37,7 @@ The `String` type in the `std::string` module is defined as follows:
 
 ```move
 // File: move-stdlib/sources/string.move
-/// A `String` holds a sequence of bytes which is guaranteed to be in utf8 format.
+/// A `String` holds a sequence of bytes guaranteed to be in UTF-8 format.
 public struct String has copy, drop, store {
     bytes: vector<u8>,
 }
@@ -55,83 +45,66 @@ public struct String has copy, drop, store {
 
 ### Creating a String
 
-To create a new UTF-8 `String` instance, you can use the `string::utf8` method. The
-[Standard Library](./standard-library.md) provides an alias `.to_string()` on the `vector<u8>` for
-convenience.
+To create a new UTF-8 `String` instance, use the `string::utf8` method. The [Standard Library](./standard-library.md) provides an alias `.to_string()` on the `vector<u8>` for convenience.
 
 ```move
-// the module is `std::string` and the type is `String`
 use std::string::{Self, String};
 
-// strings are normally created using the `utf8` function
-// type declaration is not necessary, we put it here for clarity
+// Create a string using the `utf8` function
 let hello: String = string::utf8(b"Hello");
 
-// The `.to_string()` alias on the `vector<u8>` is more convenient
+// Use the `.to_string()` alias on the `vector<u8>`
 let hello = b"Hello".to_string();
 ```
 
 ### Common Operations
 
-UTF8 String provides a number of methods to work with strings. The most common operations on strings
-are: concatenation, slicing, and getting the length. Additionally, for custom string operations, the
-`bytes()` method can be used to get the underlying byte vector.
+UTF-8 `String` provides several methods to work with strings, such as concatenation, slicing, and getting the length. For custom string operations, the `bytes()` method can be used to get the underlying byte vector.
 
 ```move
 let mut str = b"Hello,".to_string();
 let another = b" World!".to_string();
 
-// append(String) adds the content to the end of the string
+// Append content to the end of the string
 str.append(another);
 
-// `sub_string(start, end)` copies a slice of the string
+// Copy a slice of the string
 str.sub_string(0, 5); // "Hello"
 
-// `length()` returns the number of bytes in the string
+// Get the number of bytes in the string
 str.length(); // 12 (bytes)
 
-// methods can also be chained! Get a length of a substring
+// Chain methods to get the length of a substring
 str.sub_string(0, 5).length(); // 5 (bytes)
 
-// whether the string is empty
+// Check if the string is empty
 str.is_empty(); // false
 
-// get the underlying byte vector for custom operations
+// Get the underlying byte vector for custom operations
 let bytes: &vector<u8> = str.bytes();
 ```
 
 ### Safe UTF-8 Operations
 
-The default `utf8` method may abort if the bytes passed into it are not valid UTF-8. If you are not
-sure that the bytes you are passing are valid, you should use the `try_utf8` method instead. It
-returns an `Option<String>`, which contains no value if the bytes are not valid UTF-8, and a string
-otherwise.
+The default `utf8` method may abort if the bytes passed into it are not valid UTF-8. Use the `try_utf8` method if you are unsure whether the bytes are valid. It returns an `Option<String>`, which contains no value if the bytes are not valid UTF-8, and a string otherwise.
 
-> Hint: the name that starts with `try_*` indicates that the function returns an Option with the
-> expected result or `none` if the operation fails. It is a common naming convention borrowed from
-> Rust.
+> Hint: Functions starting with `try_*` return an `Option` with the expected result or `none` if the operation fails. This naming convention is borrowed from Rust.
 
 ```move
-// this is a valid UTF-8 string
+// Valid UTF-8 string
 let hello = b"Hello".try_to_string();
+assert!(hello.is_some(), 0); // Abort if the value is not valid UTF-8
 
-assert!(hello.is_some(), 0); // abort if the value is not valid UTF-8
-
-// this is not a valid UTF-8 string
+// Invalid UTF-8 string
 let invalid = b"\xFF".try_to_string();
-
-assert!(invalid.is_none(), 0); // abort if the value is valid UTF-8
+assert!(invalid.is_none(), 0); // Abort if the value is valid UTF-8
 ```
 
 ### UTF-8 Limitations
 
-The `string` module does not provide a way to access individual characters in a string. This is
-because UTF-8 is a variable-length encoding, and the length of a character can be anywhere from 1 to
-4 bytes. Similarly, the `length()` method returns the number of bytes in the string, not the number
-of characters.
+The `string` module does not provide a way to access individual characters in a string because UTF-8 is a variable-length encoding, and the length of a character can be anywhere from 1 to 4 bytes. The `length()` method returns the number of bytes in the string, not the number of characters.
 
-However, methods like `sub_string` and `insert` check character boundaries and will abort when the
-index is in the middle of a character.
+However, methods like `sub_string` and `insert` check character boundaries and will abort if the index is in the middle of a character.
 
 ## ASCII Strings
 
