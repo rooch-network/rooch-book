@@ -1,15 +1,10 @@
 # Vector
 
-Vectors are a native way to store collections of elements in Move. They are similar to arrays in
-other programming languages, but with a few differences. In this section, we introduce the `vector`
-type and its operations.
+Vectors are a native way to store collections of elements in Move. They are similar to arrays in other programming languages, but with a few differences. In this section, we introduce the `vector` type and its operations.
 
-## Vector syntax
+## Vector Syntax
 
-The `vector` type is defined using the `vector` keyword followed by the type of the elements in
-angle brackets. The type of the elements can be any valid Move type, including other vectors. Move
-has a vector literal syntax that allows you to create vectors using the `vector` keyword followed by
-square brackets containing the elements (or no elements for an empty vector).
+The `vector` type is defined using the `vector` keyword followed by the type of the elements in angle brackets. The type of the elements can be any valid Move type, including other vectors. Move has a vector literal syntax that allows you to create vectors using the `vector` keyword followed by square brackets containing the elements (or no elements for an empty vector).
 
 ```move
 // An empty vector of bool elements.
@@ -25,14 +20,11 @@ let vv: vector<vector<u8>> = vector[
 ];
 ```
 
-The `vector` type is a built-in type in Move, and does not need to be imported from a module.
-However, vector operations are defined in the `std::vector` module, and you need to import the
-module to use them.
+The `vector` type is built-in in Move and does not need to be imported from a module. However, vector operations are defined in the `std::vector` module, which you need to import to use them.
 
-## Vector operations
+## Vector Operations
 
-The standard library provides methods to manipulate vectors. The following are some of the most
-commonly used operations:
+The standard library provides methods to manipulate vectors. Here are some of the most commonly used operations:
 
 - `push_back`: Adds an element to the end of the vector.
 - `pop_back`: Removes the last element from the vector.
@@ -52,23 +44,21 @@ let last_value = v.pop_back();
 assert!(last_value == 40, 2);
 ```
 
-## Destroying a Vector of non-droppable types
+## Destroying a Vector of Non-Droppable Types
 
-A vector of non-droppable types cannot be discarded. If you define a vector of types without `drop`
-ability, the vector value cannot be ignored. However, if the vector is empty, compiler requires an
-explicit call to `destroy_empty` function.
+A vector of non-droppable types cannot be discarded. If you define a vector of types without the `drop` ability, the vector value cannot be ignored. However, if the vector is empty, the compiler requires an explicit call to the `destroy_empty` function.
 
 ```move
-    /// A struct without `drop` ability.
-    public struct NoDrop {}
+/// A struct without `drop` ability.
+public struct NoDrop {}
 
-    #[test]
-    fun test_destroy_empty() {
-        // Initialize a vector of `NoDrop` elements.
-        let v = vector<NoDrop>[];
+#[test]
+fun test_destroy_empty() {
+    // Initialize a vector of `NoDrop` elements.
+    let v = vector<NoDrop>[];
 
-        // While we know that `v` is empty, we still need to call
-        // the explicit `destroy_empty` function to discard the vector.
-        v.destroy_empty();
-    }
+    // While we know that `v` is empty, we still need to call
+    // the explicit `destroy_empty` function to discard the vector.
+    v.destroy_empty();
+}
 ```
