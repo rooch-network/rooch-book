@@ -44,3 +44,17 @@ A struct without abilities cannot be discarded, copied, or stored in storage. We
 ## Further Reading
 
 - [Type Abilities](/reference/type-abilities.html) in the Move Reference.
+
+## Understanding Move Resource Abilities
+
+In Move, abilities are represented as bit flags. The value 8 in the abilities field corresponds to specific capability flags. Let me break this down:
+
+Ability Bit Flags
+
+```
+abilities: 8 means:
+1 = copy  (0b0001)
+2 = drop  (0b0010)
+4 = store (0b0100)
+8 = key   (0b1000)
+```
