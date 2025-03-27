@@ -1,7 +1,7 @@
 # Function
 
 Functions are the building blocks of Move programs. They are called from
-[user transactions](../concepts/user-interaction.md) and from other functions, grouping executable
+user transactions and from other functions, grouping executable
 code into reusable units. Functions can take arguments and return values. They are declared with
 the `fun` keyword at the module level. By default, functions are private and can only be accessed
 from within the module.

@@ -12,7 +12,7 @@ and revert the changes made so far.
 
 The `abort` keyword is used to abort the execution of a transaction. It is used in combination with
 an abort code, which will be returned to the caller of the transaction. The abort code is an
-[integer](./primitive-types.md) of type `u64`.
+[integer](./primitive-type.md) of type `u64`.
 
 ```move
 let user_has_access = true;
