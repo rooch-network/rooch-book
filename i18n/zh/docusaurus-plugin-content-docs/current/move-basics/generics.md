@@ -160,7 +160,7 @@ fun test_phantom_type() {
 
 ## 对类型参数的约束
 
-类型参数可以限制为具有某些功能。当您需要内部类型允许某些行为（例如 复制 或 丢弃）时，这非常有用。约束类型参数的语法是 T: <ability> + <ability>。
+类型参数可以限制为具有某些功能。当您需要内部类型允许某些行为（例如 复制 或 丢弃）时，这非常有用。约束类型参数的语法是 `T: <ability> + <ability>`。
 
 ```move
 /// A generic type with a type parameter that has the `drop` ability.
