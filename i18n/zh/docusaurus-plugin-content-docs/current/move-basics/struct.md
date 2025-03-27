@@ -38,7 +38,7 @@ public struct Record {
 
 ## 创建和使用实例
 
-我们已经描述了结构体的定义方式。现在让我们看看如何初始化结构体并使用它。结构体可以使用 struct_name { field1: value1, field2: value2, ... } 的语法进行初始化。字段的初始化顺序可以任意，但必须设置所有字段。
+我们已经描述了结构体的定义方式。现在让我们看看如何初始化结构体并使用它。结构体可以使用 `struct_name { field1: value1, field2: value2, ... }` 的语法进行初始化。字段的初始化顺序可以任意，但必须设置所有字段。
 
 ```move
 let mut artist = Artist {
