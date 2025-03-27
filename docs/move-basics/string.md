@@ -1,6 +1,6 @@
 # String
 
-Move does not have a built-in type to represent strings, but it provides two standard implementations in the [Standard Library](./standard-library.md). The `std::string` module defines a `String` type and methods for UTF-8 encoded strings, while the `std::ascii` module provides an ASCII `String` type and its methods.
+Move does not have a built-in type to represent strings, but it provides two standard implementations in the Standard Library. The `std::string` module defines a `String` type and methods for UTF-8 encoded strings, while the `std::ascii` module provides an ASCII `String` type and its methods.
 
 > The Rooch execution environment automatically converts bytevectors into `String` in transaction inputs. Therefore, in many cases, a String does not need to be constructed in the Transaction Block.
 

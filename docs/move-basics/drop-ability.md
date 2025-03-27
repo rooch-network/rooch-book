@@ -33,8 +33,8 @@ A struct with only the `drop` ability is called a _Witness_. The concept of a _W
 
 All native types in Move have the `drop` ability, including:
 
-- [bool](./primitive-types.md#booleans)
-- [unsigned integers](./primitive-types.md#integers)
+- [bool](./primitive-type.md#booleans)
+- [unsigned integers](./primitive-type.md#integers)
 - [vector](./vector.md)
 - [address](./address.md)
 

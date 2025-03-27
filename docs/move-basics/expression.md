@@ -9,7 +9,7 @@ this section, we cover the types of expressions and introduce the concept of sco
 
 ## Literals
 
-In the [Primitive Types](./primitive-types.md) section, we introduced the basic types of Move. To
+In the [Primitive Types](./primitive-type.md) section, we introduced the basic types of Move. To
 illustrate them, we used literals. A literal is a notation for representing a fixed value in the
 source code. Literals are used to initialize variables and to pass arguments to functions. Move has
 the following literals:
