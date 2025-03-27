@@ -40,6 +40,6 @@ All native types in Move have the `drop` ability, including:
 
 All types defined in the standard library also have the `drop` ability, such as:
 
-- [Option]()
+- Option
 - [String](./string.md)
-- [TypeName]()
+- TypeName

@@ -43,6 +43,6 @@ All native types in Move have the `copy` ability. This includes:
 
 All of the types defined in the standard library have the `copy` ability as well. This includes:
 
-- [Option]()
+- Option
 - [String](./string.md)
-- [TypeName]()
+- TypeName
