@@ -9,7 +9,7 @@ collections and abstract implementations.
 
 In this chapter, we already mentioned the [vector](./vector.md) type, which is a generic type that
 can hold any other type. Another example of a generic type in the standard library is the
-[Option](./option.md) type, which is used to represent a value that may or may not be present.
+Option type, which is used to represent a value that may or may not be present.
 
 ## Generic Syntax
 

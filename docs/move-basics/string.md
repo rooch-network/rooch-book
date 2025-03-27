@@ -2,7 +2,7 @@
 
 Move does not have a built-in type to represent strings, but it provides two standard implementations in the [Standard Library](./standard-library.md). The `std::string` module defines a `String` type and methods for UTF-8 encoded strings, while the `std::ascii` module provides an ASCII `String` type and its methods.
 
-> The Rooch execution environment automatically converts bytevectors into `String` in transaction inputs. Therefore, in many cases, a String does not need to be constructed in the [Transaction Block](./../concepts/what-is-a-transaction.md).
+> The Rooch execution environment automatically converts bytevectors into `String` in transaction inputs. Therefore, in many cases, a String does not need to be constructed in the Transaction Block.
 
 ## Strings are Bytes
 
@@ -45,7 +45,7 @@ public struct String has copy, drop, store {
 
 ### Creating a String
 
-To create a new UTF-8 `String` instance, use the `string::utf8` method. The [Standard Library](./standard-library.md) provides an alias `.to_string()` on the `vector<u8>` for convenience.
+To create a new UTF-8 `String` instance, use the `string::utf8` method. The Standard Library provides an alias `.to_string()` on the `vector<u8>` for convenience.
 
 ```move
 use std::string::{Self, String};

@@ -71,7 +71,7 @@ let sum = {
 
 ## Function Calls
 
-We go into detail about functions in the [Functions](./functions.md) section. However, we already
+We go into detail about functions in the [Functions](./function.md) section. However, we already
 used function calls in the previous sections, so it's worth mentioning them here. A function call is
 an expression that calls a function and returns the value of the last expression in the function
 body.

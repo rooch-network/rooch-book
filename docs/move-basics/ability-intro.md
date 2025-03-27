@@ -32,14 +32,14 @@ A quick overview of the abilities:
 
 - `copy` - allows the struct to be _copied_. Explained in the [Ability: Copy](./copy-ability.md) chapter.
 - `drop` - allows the struct to be _dropped_ or _discarded_. Explained in the [Ability: Drop](./drop-ability.md) chapter.
-- `key` - allows the struct to be used as a _key_ in storage. Explained in the [Ability: Key](./../storage/key-ability.md) chapter.
-- `store` - allows the struct to be _stored_ in structs with the _key_ ability. Explained in the [Ability: Store](./../storage/store-ability.md) chapter.
+- `key` - allows the struct to be used as a _key_ in storage. Explained in the Ability: Key chapter.
+- `store` - allows the struct to be _stored_ in structs with the _key_ ability. Explained in the Ability: Store chapter.
 
 While it is important to mention them here, we will go into detail about each ability in the following chapters and provide proper context on how to use them.
 
 ## No Abilities
 
-A struct without abilities cannot be discarded, copied, or stored in storage. We call such a struct a _Hot Potato_. It is a joke, but it is also a good way to remember that a struct without abilities is like a hot potato - it can only be passed around and requires special handling. Hot Potato is one of the most powerful patterns in Move, and we will go into detail about it in the [Hot Potato](./../programmability/hot-potato.md) chapter.
+A struct without abilities cannot be discarded, copied, or stored in storage. We call such a struct a _Hot Potato_. It is a joke, but it is also a good way to remember that a struct without abilities is like a hot potato - it can only be passed around and requires special handling. Hot Potato is one of the most powerful patterns in Move, and we will go into detail about it in the Hot Potato chapter.
 
 ## Further Reading
 

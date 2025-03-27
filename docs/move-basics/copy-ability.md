@@ -36,13 +36,13 @@ All of the primitive types in Move behave as if they have the _copy_ and _drop_ 
 
 All native types in Move have the `copy` ability. This includes:
 
-- [bool](./../move-basics/primitive-types.md#booleans)
-- [unsigned integers](./../move-basics/primitive-types.md#integers)
-- [vector](./../move-basics/vector.md)
-- [address](./../move-basics/address.md)
+- [bool](./primitive-types.md#booleans)
+- [unsigned integers](./primitive-types.md#integers)
+- [vector](./vector.md)
+- [address](./address.md)
 
 All of the types defined in the standard library have the `copy` ability as well. This includes:
 
-- [Option](./../move-basics/option.md)
-- [String](./../move-basics/string.md)
-- [TypeName](./../move-basics/type-reflection.md#typename)
+- [Option]()
+- [String](./string.md)
+- [TypeName]()
