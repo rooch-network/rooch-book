@@ -30,5 +30,21 @@
   "sidebar.tutorialSidebar.category.move-advanced": {
     "message": "move-advanced",
     "description": "The label for category move-advanced in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Prepare": {
+    "message": "Prepare",
+    "description": "The label for category Prepare in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Concept": {
+    "message": "Concept",
+    "description": "The label for category Concept in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Move Basics": {
+    "message": "Move Basics",
+    "description": "The label for category Move Basics in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.contract": {
+    "message": "contract",
+    "description": "The label for category contract in sidebar tutorialSidebar"
   }
 }

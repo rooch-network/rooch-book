@@ -30,7 +30,7 @@ public struct Record {
 }
 ```
 
-In the example above, the `Record` struct has five fields: `title` (String), `artist` (Artist), `year` (u16), `is_debut` (bool), and `edition` (Option<u16>), where `edition` is optional.
+In the example above, the `Record` struct has five fields: `title` (String), `artist` (Artist), `year` (u16), `is_debut` (bool), and `edition` (`Option<u16>`), where `edition` is optional.
 
 Structs are private by default, meaning they cannot be imported and used outside the module they are defined in. Their fields are also private and can't be accessed from outside the module. See [visibility](./visibility.md) for more information on visibility modifiers.
 
